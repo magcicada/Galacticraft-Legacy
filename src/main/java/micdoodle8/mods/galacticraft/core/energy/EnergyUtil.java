@@ -119,7 +119,7 @@ public class EnergyUtil
                 continue;
             }
 
-            if (isMekLoaded && (tileEntity instanceof IStrictEnergyAcceptor || tileEntity instanceof IStrictEnergyOutputter))
+            if ((!EnergyConfigHandler.disableMekanismOutput || !EnergyConfigHandler.disableMekanismInput) && isMekLoaded && (tileEntity instanceof IStrictEnergyAcceptor || tileEntity instanceof IStrictEnergyOutputter))
             {
                 // Do not connect GC wires directly to Mek Universal Cables
                 try
@@ -143,7 +143,7 @@ public class EnergyUtil
                 continue;
             }
 
-            if (isBCReallyLoaded)
+            if ((!EnergyConfigHandler.disableBuildCraftOutput || !EnergyConfigHandler.disableBuildCraftInput) && isBCReallyLoaded)
             {
                 // Do not connect GC wires directly to BC pipes of any type
                 try
@@ -164,7 +164,7 @@ public class EnergyUtil
                 }
             }
 
-            if (isRFLoaded && tileEntity instanceof IEnergyConnection)
+            if ((!EnergyConfigHandler.disableRFOutput || !EnergyConfigHandler.disableRFInput) && isRFLoaded && tileEntity instanceof IEnergyConnection)
             {
                 if (isRF2Loaded && (tileEntity instanceof IEnergyProvider || tileEntity instanceof IEnergyReceiver) || isRF1Loaded && tileEntity instanceof IEnergyHandler
                     || clazzRailcraftEngine != null && clazzRailcraftEngine.isInstance(tileEntity))
@@ -182,7 +182,7 @@ public class EnergyUtil
                 continue;
             }
 
-            if (isIC2Loaded && !isIC2ClassicLoaded)
+            if ((!EnergyConfigHandler.disableIC2Output || !EnergyConfigHandler.disableIC2Input) && isIC2Loaded && !isIC2ClassicLoaded)
             {
                 if (tileEntity instanceof IEnergyConductor)
                 {
@@ -301,7 +301,7 @@ public class EnergyUtil
      * entered in the Lists more than once, with a different direction each
      * time: this would represent GC wires connected to the acceptor on more
      * than one side.)
-     * 
+     *
      * @param conductor
      * @param connectedAcceptors
      * @param directions
@@ -343,7 +343,7 @@ public class EnergyUtil
                 continue;
             }
 
-            if (isMekLoaded && tileEntity instanceof IStrictEnergyAcceptor)
+            if (!EnergyConfigHandler.disableMekanismOutput && isMekLoaded && tileEntity instanceof IStrictEnergyAcceptor)
             {
                 if (clazzMekCable != null && clazzMekCable.isInstance(tileEntity))
                 {
@@ -357,7 +357,7 @@ public class EnergyUtil
                 continue;
             }
 
-            if (isIC2Loaded && !world.isRemote)
+            if (!EnergyConfigHandler.disableIC2Output && isIC2Loaded && !world.isRemote)
             {
                 IEnergyTile IC2tile = null;
                 BlockPos checkingIC2 = thisVec.toBlockPos().offset(direction);
@@ -384,7 +384,7 @@ public class EnergyUtil
                 }
             }
 
-            if (isBCReallyLoaded)
+            if (!EnergyConfigHandler.disableBuildCraftOutput && isBCReallyLoaded)
             {
                 if (clazzPipeTile != null && clazzPipeTile.isInstance(tileEntity))
                 {
@@ -400,7 +400,7 @@ public class EnergyUtil
                 }
             }
 
-            if ((isRF2Loaded && tileEntity instanceof IEnergyReceiver) || (isRF1Loaded && tileEntity instanceof IEnergyHandler))
+            if (!EnergyConfigHandler.disableRFOutput && (isRF2Loaded && tileEntity instanceof IEnergyReceiver) || (isRF1Loaded && tileEntity instanceof IEnergyHandler))
             {
                 if (clazzMFRRednetEnergyCable != null && clazzMFRRednetEnergyCable.isInstance(tileEntity))
                 {
