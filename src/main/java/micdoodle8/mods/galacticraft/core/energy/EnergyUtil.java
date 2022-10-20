@@ -667,7 +667,7 @@ public class EnergyUtil
         // Initialise a couple of non-IC2 classes
         try
         {
-            clazzMekCable = Class.forName("codechicken.multipart.TileMultipart");
+            clazzMekCable = Class.forName("mekanism.common.tile.transmitter.TileEntityUniversalCable");
         } catch (Exception e)
         {
         }
@@ -685,7 +685,7 @@ public class EnergyUtil
         }
         try
         {
-            clazzRailcraftEngine = Class.forName("mods.railcraft.common.blocks.machine.beta.TileEngine");
+            clazzRailcraftEngine = Class.forName("mods.railcraft.common.blocks.single.TileEngine");
         } catch (Exception e)
         {
         }
