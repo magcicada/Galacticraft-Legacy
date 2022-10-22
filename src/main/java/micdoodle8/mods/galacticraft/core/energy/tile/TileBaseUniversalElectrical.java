@@ -45,7 +45,7 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 @InterfaceList(value = {
-    @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = CompatibilityManager.modidIC2), 
+    @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = CompatibilityManager.modidIC2),
     @Interface(iface = "ic2.api.energy.tile.IEnergyAcceptor", modid = CompatibilityManager.modidIC2),
     @Interface(iface = "buildcraft.api.mj.IMjReceiver", modid = CompatibilityManager.modBCraftEnergy),
     @Interface(iface = "mekanism.api.energy.IStrictEnergyOutputter", modid = CompatibilityManager.modidMekanism),
@@ -479,7 +479,6 @@ public abstract class TileBaseUniversalElectrical extends EnergyStorageTile impl
     }
 
     @Override
-    @Method(modid = CompatibilityManager.modidMekanism)
     public boolean canOutputEnergy(EnumFacing side)
     {
         return this.getElectricalOutputDirections().contains(side);
