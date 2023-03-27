@@ -1,11 +1,15 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
  */
 
 package micdoodle8.mods.galacticraft.core.util;
+
+import java.util.Objects;
+
+import net.minecraftforge.common.property.IUnlistedProperty;
 
 /**
  * This class was originally created by <williewillus> as
@@ -19,8 +23,6 @@ package micdoodle8.mods.galacticraft.core.util;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import java.util.Objects;
-import net.minecraftforge.common.property.IUnlistedProperty;
 
 public class PropertyObject<T> implements IUnlistedProperty<T>
 {

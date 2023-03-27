@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -8,6 +8,7 @@
 package micdoodle8.mods.galacticraft.core.client;
 
 import java.awt.image.BufferedImage;
+
 import net.minecraft.client.renderer.texture.DynamicTexture;
 
 public class DynamicTextureProper extends DynamicTexture

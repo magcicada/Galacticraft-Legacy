@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -8,12 +8,14 @@
 package micdoodle8.mods.galacticraft.core.tile;
 
 import java.util.List;
-import micdoodle8.mods.galacticraft.core.blocks.BlockMulti;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import micdoodle8.mods.galacticraft.core.blocks.BlockMulti;
 
 public interface IMultiBlock extends ITickable
 {

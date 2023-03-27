@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -7,23 +7,28 @@
 
 package micdoodle8.mods.galacticraft.core.util;
 
-import ic2.api.item.IC2Items;
 import java.util.HashMap;
+
 import javax.annotation.Nonnull;
-import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
-import micdoodle8.mods.galacticraft.api.recipe.INasaWorkbenchRecipe;
-import micdoodle8.mods.galacticraft.core.inventory.InventoryBuggyBench;
-import micdoodle8.mods.galacticraft.core.inventory.InventoryRocketBench;
-import micdoodle8.mods.galacticraft.core.recipe.NasaWorkbenchRecipe;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.registries.GameData;
+
+import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
+import micdoodle8.mods.galacticraft.api.recipe.INasaWorkbenchRecipe;
+import micdoodle8.mods.galacticraft.core.inventory.InventoryBuggyBench;
+import micdoodle8.mods.galacticraft.core.inventory.InventoryRocketBench;
+import micdoodle8.mods.galacticraft.core.recipe.NasaWorkbenchRecipe;
+
+import ic2.api.item.IC2Items;
 
 public class RecipeUtil
 {

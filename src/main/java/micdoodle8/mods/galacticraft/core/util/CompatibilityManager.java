@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -10,9 +10,7 @@ package micdoodle8.mods.galacticraft.core.util;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import micdoodle8.mods.galacticraft.core.GCBlocks;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.blocks.BlockEnclosed;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 //import cpw.mods.fml.common.Loader;
@@ -22,8 +20,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.gen.ChunkProviderServer;
+
 import net.minecraftforge.fml.common.Loader;
 
+import micdoodle8.mods.galacticraft.core.GCBlocks;
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.blocks.BlockEnclosed;
+
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class CompatibilityManager
 {
 
@@ -46,7 +50,6 @@ public class CompatibilityManager
     private static boolean modTELoaded = Loader.isModLoaded("thermalexpansion");
     private static boolean modMekLoaded = Loader.isModLoaded(modidMekanism);
     private static boolean modAetherIILoaded;
-    private static boolean modBasicComponentsLoaded;
     private static boolean modAppEngLoaded;
     private static boolean modPneumaticCraftLoaded;
     private static boolean modBOPLoaded = Loader.isModLoaded("biomesoplenty");
@@ -55,7 +58,6 @@ public class CompatibilityManager
     private static boolean spongeLoaded;
     private static boolean modMatterOverdriveLoaded;
     private static boolean wailaLoaded;
-    public static boolean isMFRLoaded = Loader.isModLoaded("minefactoryreloaded");
     public static boolean isSmartMovingLoaded = Loader.isModLoaded("smartmoving");
     public static boolean isTConstructLoaded = Loader.isModLoaded("tconstruct");
     public static boolean isWitcheryLoaded = Loader.isModLoaded("witchery");
@@ -82,6 +84,7 @@ public class CompatibilityManager
     private static Method androidPlayerIsAndroid;
     public static Class classIc2ClassicTileCable;
 
+
     public static void checkForCompatibleMods()
     {
         if (Loader.isModLoaded("gregtech") || Loader.isModLoaded("gregtech_addon"))
@@ -92,11 +95,6 @@ public class CompatibilityManager
         if (CompatibilityManager.modMekLoaded)
         {
             GalacticraftCore.logger.info("Activating Mekanism compatibility.");
-        }
-
-        if (CompatibilityManager.isMFRLoaded)
-        {
-            GalacticraftCore.logger.info("Activating MFR compatibility feature.");
         }
 
         if (CompatibilityManager.modTELoaded)
@@ -259,11 +257,6 @@ public class CompatibilityManager
             GalacticraftCore.logger.info("Activating AetherII compatibility feature.");
         }
 
-        if (Loader.isModLoaded("basiccomponents"))
-        {
-            CompatibilityManager.modBasicComponentsLoaded = true;
-        }
-
         if (Loader.isModLoaded("appliedenergistics2"))
         {
             CompatibilityManager.modAppEngLoaded = true;
@@ -364,11 +357,6 @@ public class CompatibilityManager
     public static boolean isAIILoaded()
     {
         return CompatibilityManager.modAetherIILoaded;
-    }
-
-    public static boolean isBCLoaded()
-    {
-        return CompatibilityManager.modBasicComponentsLoaded;
     }
 
     public static boolean isAppEngLoaded()

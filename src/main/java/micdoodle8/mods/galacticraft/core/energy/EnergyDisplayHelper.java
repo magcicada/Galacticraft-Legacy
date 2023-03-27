@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -8,9 +8,11 @@
 package micdoodle8.mods.galacticraft.core.energy;
 
 import java.util.List;
-import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
+
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
+
+import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 
 public class EnergyDisplayHelper
 {

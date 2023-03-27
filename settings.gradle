@@ -1,10 +1,7 @@
 pluginManagement {
     repositories {
-		maven {
-			url = 'https://maven.galacticraft.net/repository/common-proxy/'
-		}
-		maven {
-			url = 'https://repo.galacticraft.net/repository/maven-common/'
-		}
+		maven { url = 'https://maven.minecraftforge.net/' }
+		maven { url = 'https://maven.galacticraft.net/repository/internal-plugins/' }
+		gradlePluginPortal()
     }
 }

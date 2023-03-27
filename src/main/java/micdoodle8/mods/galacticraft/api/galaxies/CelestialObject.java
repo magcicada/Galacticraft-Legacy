@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -8,8 +8,11 @@
 package micdoodle8.mods.galacticraft.api.galaxies;
 
 import java.util.function.Predicate;
-import lombok.Setter;
+
+//import lombok.Setter;
 import net.minecraft.util.text.translation.I18n;
+
+import lombok.Setter;
 
 public abstract class CelestialObject implements ICelestial
 {
@@ -42,6 +45,7 @@ public abstract class CelestialObject implements ICelestial
         return this.getCelestialType().toString() + "." + bodyName;
     }
 
+    @Override
     public CelestialType getCelestialType()
     {
         return this.type;
@@ -55,6 +59,11 @@ public abstract class CelestialObject implements ICelestial
     public String getTranslatedName()
     {
         return I18n.translateToLocal(this.getTranslationKey());
+    }
+
+    public boolean isEqualTo(CelestialType celestialType, String name)
+    {
+        return type.equals(celestialType) && bodyName.equalsIgnoreCase(name);
     }
 
     public static Predicate<CelestialObject> filter(String modId)

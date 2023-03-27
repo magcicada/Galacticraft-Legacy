@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Team Galacticraft
+ * Copyright (c) 2023 Team Galacticraft
  *
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
@@ -8,6 +8,7 @@
 package micdoodle8.mods.galacticraft.core.util;
 
 import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 public class GCLog
 {
 
-    private static Logger log = LogManager.getFormatterLogger("Depreciated-GCLog");
+    private static Logger log = LogManager.getFormatterLogger("Deprecated-GCLog");
 
     public static void info(String message)
     {
