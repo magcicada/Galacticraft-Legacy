@@ -2,7 +2,7 @@ name: Feature Request
 description: Suggesting a new feature for the mod.
 title: "[Feature]: "
 labels:
-  - '[Status] Needs Review'
+  - '[Attribute] Feature Request'
 body:
   - type: markdown
     attributes:

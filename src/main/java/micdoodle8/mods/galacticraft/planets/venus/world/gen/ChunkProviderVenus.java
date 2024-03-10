@@ -9,16 +9,7 @@ package micdoodle8.mods.galacticraft.planets.venus.world.gen;
 
 import java.util.List;
 import java.util.Random;
-import micdoodle8.mods.galacticraft.api.prefab.world.gen.BiomeAdaptive;
-import micdoodle8.mods.galacticraft.api.prefab.world.gen.MapGenBaseMeta;
-import micdoodle8.mods.galacticraft.api.world.ChunkProviderBase;
-import micdoodle8.mods.galacticraft.core.perlin.generator.GradientNoise;
-import micdoodle8.mods.galacticraft.planets.venus.VenusBlocks;
-import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockBasicVenus;
-import micdoodle8.mods.galacticraft.planets.venus.world.gen.dungeon.DungeonConfigurationVenus;
-import micdoodle8.mods.galacticraft.planets.venus.world.gen.dungeon.MapGenDungeonVenus;
-import micdoodle8.mods.galacticraft.planets.venus.world.gen.dungeon.RoomBossVenus;
-import micdoodle8.mods.galacticraft.planets.venus.world.gen.dungeon.RoomTreasureVenus;
+
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
@@ -34,6 +25,19 @@ import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.NoiseGenerator;
 import net.minecraft.world.gen.NoiseGeneratorOctaves;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
+
+import net.minecraftforge.event.ForgeEventFactory;
+
+import micdoodle8.mods.galacticraft.api.prefab.world.gen.BiomeAdaptive;
+import micdoodle8.mods.galacticraft.api.prefab.world.gen.MapGenBaseMeta;
+import micdoodle8.mods.galacticraft.api.world.ChunkProviderBase;
+import micdoodle8.mods.galacticraft.core.perlin.generator.GradientNoise;
+import micdoodle8.mods.galacticraft.planets.venus.VenusBlocks;
+import micdoodle8.mods.galacticraft.planets.venus.blocks.BlockBasicVenus;
+import micdoodle8.mods.galacticraft.planets.venus.world.gen.dungeon.DungeonConfigurationVenus;
+import micdoodle8.mods.galacticraft.planets.venus.world.gen.dungeon.MapGenDungeonVenus;
+import micdoodle8.mods.galacticraft.planets.venus.world.gen.dungeon.RoomBossVenus;
+import micdoodle8.mods.galacticraft.planets.venus.world.gen.dungeon.RoomTreasureVenus;
 
 public class ChunkProviderVenus extends ChunkProviderBase
 {
@@ -86,7 +90,7 @@ public class ChunkProviderVenus extends ChunkProviderBase
         {
             for (int j = -2; j <= 2; ++j)
             {
-                float f = 10.0F / MathHelper.sqrt((float) (i * i + j * j) + 0.2F);
+                float f = 10.0F / MathHelper.sqrt(i * i + j * j + 0.2F);
                 this.parabolicField[i + 2 + (j + 2) * 5] = f;
             }
         }
@@ -171,7 +175,7 @@ public class ChunkProviderVenus extends ChunkProviderBase
     private void replaceBlocksForBiome(int x, int z, ChunkPrimer primer, Biome[] biomes)
     {
         double d0 = 0.03125D;
-        this.stoneNoise = this.noiseGen4.getRegion(this.stoneNoise, (double) (x * 16), (double) (z * 16), 16, 16, d0 * 2.0D, d0 * 2.0D, 1.0D);
+        this.stoneNoise = this.noiseGen4.getRegion(this.stoneNoise, x * 16, z * 16, 16, 16, d0 * 2.0D, d0 * 2.0D, 1.0D);
 
         for (int i = 0; i < 16; ++i)
         {
@@ -186,7 +190,7 @@ public class ChunkProviderVenus extends ChunkProviderBase
     @Override
     public Chunk generateChunk(int x, int z)
     {
-        this.rand.setSeed((long) x * 341873128712L + (long) z * 132897987541L);
+        this.rand.setSeed(x * 341873128712L + z * 132897987541L);
         ChunkPrimer chunkprimer = new ChunkPrimer();
         this.setBlocksInChunk(x, z, chunkprimer);
         this.biomesForGeneration = this.world.getBiomeProvider().getBiomes(this.biomesForGeneration, x * 16, z * 16, 16, 16);
@@ -291,15 +295,15 @@ public class ChunkProviderVenus extends ChunkProviderBase
                 }
 
                 ++j;
-                double d8 = (double) f3;
-                double d9 = (double) f2;
+                double d8 = f3;
+                double d9 = f2;
                 d8 = d8 + d7 * 0.2D;
                 d8 = d8 * 8.5 / 8.0D;
                 double d0 = 8.5 + d8 * 4.0D;
 
                 for (int l1 = 0; l1 < 33; ++l1)
                 {
-                    double d1 = ((double) l1 - d0) * 12.0 * 128.0D / 256.0D / d9;
+                    double d1 = (l1 - d0) * 12.0 * 128.0D / 256.0D / d9;
 
                     if (d1 < 0.0D)
                     {
@@ -311,7 +315,7 @@ public class ChunkProviderVenus extends ChunkProviderBase
 
                     if (l1 > 29)
                     {
-                        double d6 = (double) ((float) (l1 - 29) / 3.0F);
+                        double d6 = (l1 - 29) / 3.0F;
                         d5 = d5 * (1.0D - d6) + -10.0D * d6;
                     }
 
@@ -333,9 +337,9 @@ public class ChunkProviderVenus extends ChunkProviderBase
         this.rand.setSeed(this.world.getSeed());
         long k = this.rand.nextLong() / 2L * 2L + 1L;
         long l = this.rand.nextLong() / 2L * 2L + 1L;
-        this.rand.setSeed((long) x * k + (long) z * l ^ this.world.getSeed());
+        this.rand.setSeed(x * k + z * l ^ this.world.getSeed());
         boolean isValley = biomegenbase instanceof BiomeAdaptive && ((BiomeAdaptive) biomegenbase).isInstance(BiomeGenVenusValley.class);
-
+        ForgeEventFactory.onChunkPopulate(true, this, this.world, this.rand, x, z, false);
         if (this.rand.nextInt(isValley ? 3 : 10) == 0)
         {
             int i2 = this.rand.nextInt(16) + 8;
@@ -368,7 +372,7 @@ public class ChunkProviderVenus extends ChunkProviderBase
 
         biomegenbase.decorate(this.world, this.rand, new BlockPos(i, 0, j));
         WorldEntitySpawner.performWorldGenSpawning(this.world, biomegenbase, i + 8, j + 8, 16, 16, this.rand);
-
+        ForgeEventFactory.onChunkPopulate(false, this, this.world, this.rand, x, z, false);
         BlockFalling.fallInstantly = false;
     }
 

@@ -7,27 +7,10 @@
 
 package micdoodle8.mods.galacticraft.core.util;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
-import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -48,7 +31,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.translation.I18n;
-import net.minecraft.util.text.translation.LanguageMap;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
@@ -65,8 +47,6 @@ import micdoodle8.mods.galacticraft.core.inventory.ContainerBuggy;
 import micdoodle8.mods.galacticraft.core.inventory.ContainerParaChest;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
-
-import org.apache.commons.io.IOUtils;
 
 /**
  * Starting with Release 4.1.0 this class will be removed and all methods moved
@@ -239,83 +219,6 @@ public class GCCoreUtil
             return string;
         }
         return GCCoreUtil.translate(string).toLowerCase();
-    }
-
-    @Nullable
-    public static InputStream supplementEntityKeys(InputStream inputstream, String assetprefix) throws IOException
-    {
-        ArrayList<String> langLines = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new InputStreamReader(inputstream, StandardCharsets.UTF_8));
-        String line;
-        String supplemented = "entity." + assetprefix.toLowerCase() + ".";
-
-        // TODO: We could also load en_US here and have any language keys not in
-        // the other lang set to the en_US value
-
-        while ((line = br.readLine()) != null)
-        {
-            line = line.trim();
-            if (!line.isEmpty())
-            {
-                langLines.add(line);
-                if (line.substring(0, 7).equals("entity."))
-                {
-                    langLines.add(supplemented + line.substring(7));
-                }
-            }
-        }
-
-        ByteArrayOutputStream outputstream = new ByteArrayOutputStream();
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputstream, StandardCharsets.UTF_8.newEncoder()));
-        for (String outLine : langLines)
-            writer.write(outLine + "\n");
-        writer.close();
-
-        return new ByteArrayInputStream(outputstream.toByteArray());
-    }
-
-    public static void loadLanguage(String langIdentifier, String assetPrefix, File source)
-    {
-        if (!lastLang.equals(langIdentifier))
-        {
-            langDisable = false;
-        }
-        if (langDisable)
-            return;
-        String langFile = "assets/" + assetPrefix + "/lang/" + langIdentifier.substring(0, 3).toLowerCase() + langIdentifier.substring(3).toUpperCase() + ".lang";
-        InputStream stream = null;
-        ZipFile zip = null;
-        try
-        {
-            if (source.isDirectory() && (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment"))
-            {
-                stream = new FileInputStream(new File(source.toURI().resolve(langFile).getPath()));
-            } else
-            {
-                zip = new ZipFile(source);
-                ZipEntry entry = zip.getEntry(langFile);
-                if (entry == null)
-                    throw new FileNotFoundException();
-                stream = zip.getInputStream(entry);
-            }
-            LanguageMap.inject(GCCoreUtil.supplementEntityKeys(stream, assetPrefix));
-        } catch (FileNotFoundException fnf)
-        {
-            langDisable = true;
-        } catch (Exception ignore)
-        {
-        } finally
-        {
-            if (stream != null)
-                IOUtils.closeQuietly(stream);
-            try
-            {
-                if (zip != null)
-                    zip.close();
-            } catch (IOException ignore)
-            {
-            }
-        }
     }
 
     public static int getDimensionID(World world)

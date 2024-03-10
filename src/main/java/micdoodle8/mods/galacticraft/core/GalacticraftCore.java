@@ -562,16 +562,6 @@ public class GalacticraftCore
             GalacticraftCore.logger.error("Error initialising JPEG compressor - this is likely caused by OpenJDK - see https://wiki.micdoodle8.com/wiki/Compatibility#For_clients_running_OpenJDK");
             e.printStackTrace();
         }
-
-        if (event.getSide() == Side.SERVER)
-        {
-            this.loadLanguageCore("en_US");
-        }
-    }
-
-    public void loadLanguageCore(String lang)
-    {
-        GCCoreUtil.loadLanguage(lang, Constants.ASSET_PREFIX, this.GCCoreSource);
     }
 
     @EventHandler

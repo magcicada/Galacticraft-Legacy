@@ -58,9 +58,9 @@ public class ContainerPainter extends Container
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer par1EntityPlayer)
+    public boolean canInteractWith(EntityPlayer entityPlayer)
     {
-        return this.tileEntity.isUsableByPlayer(par1EntityPlayer);
+        return this.tileEntity.isUsableByPlayer(entityPlayer);
     }
 
     /**
@@ -68,7 +68,7 @@ public class ContainerPainter extends Container
      * clicking.
      */
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int index)
+    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int index)
     {
         ItemStack stackOrig = ItemStack.EMPTY;
         Slot slot = (Slot) this.inventorySlots.get(index);
@@ -120,7 +120,7 @@ public class ContainerPainter extends Container
                 return ItemStack.EMPTY;
             }
 
-            slot.onTake(par1EntityPlayer, stack);
+            slot.onTake(entityPlayer, stack);
         }
 
         return stackOrig;

@@ -142,21 +142,21 @@ public class EntitySkeletonBoss extends EntityBossBase implements IEntityBreatha
     }
 
     @Override
-    public void onCollideWithPlayer(EntityPlayer par1EntityPlayer)
+    public void onCollideWithPlayer(EntityPlayer entityPlayer)
     {
-        if (!this.isAIDisabled() && this.getPassengers().isEmpty() && this.postThrowDelay == 0 && this.throwTimer == 0 && par1EntityPlayer.equals(this.targetEntity) && this.deathTicks == 0)
+        if (!this.isAIDisabled() && this.getPassengers().isEmpty() && this.postThrowDelay == 0 && this.throwTimer == 0 && entityPlayer.equals(this.targetEntity) && this.deathTicks == 0)
         {
             if (!this.world.isRemote)
             {
                 GalacticraftCore.packetPipeline.sendToAllAround(new PacketSimple(EnumSimplePacket.C_PLAY_SOUND_BOSS_LAUGH, GCCoreUtil.getDimensionID(this.world), new Object[]
                 {}), new TargetPoint(GCCoreUtil.getDimensionID(this.world), this.posX, this.posY, this.posZ, 40.0D));
-                par1EntityPlayer.startRiding(this);
+                entityPlayer.startRiding(this);
             }
 
             this.throwTimer = 40;
         }
 
-        super.onCollideWithPlayer(par1EntityPlayer);
+        super.onCollideWithPlayer(entityPlayer);
     }
 
     @Override

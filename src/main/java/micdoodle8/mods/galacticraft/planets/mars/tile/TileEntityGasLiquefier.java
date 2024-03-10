@@ -552,17 +552,9 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
     @Override
     public int[] getSlotsForFace(EnumFacing side)
     {
-        if (side == EnumFacing.DOWN)
-        {
-            return new int[] {0, 1, 2, 3};
-        }
-
-        if (side == EnumFacing.UP)
-        {
-            return new int[] {0};
-        }
-
-        return new int[] {1, 2, 3};
+       
+       
+        return side == EnumFacing.UP ? new int[] { 0 } : new int[] { 0, 1, 2 };
     }
 
     @Override
@@ -596,7 +588,7 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
             case 1:
                 return FluidUtil.isEmptyContainer(itemstack);
             case 2:
-            case 3:
+        
                 return FluidUtil.isFullContainer(itemstack);
 
             default:
@@ -613,7 +605,7 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
                 return ItemElectricBase.isElectricItem(itemstack.getItem());
             case 1:
             case 2:
-            case 3:
+            
                 return FluidUtil.isValidContainer(itemstack);
         }
 
@@ -642,8 +634,8 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
     public boolean canDrain(EnumFacing from, Fluid fluid)
     {
 
-        // 2->5 3->4 4->2 5->3
-        if (getElectricInputDirection().getOpposite() == from)
+
+        if (from == getGasInputDirection().getOpposite())
         {
             return this.liquidTank.getFluid() != null && this.liquidTank.getFluidAmount() > 0;
         }
@@ -655,8 +647,8 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
     public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain)
     {
 
-        // 2->5 3->4 4->2 5->3
-        if (getElectricInputDirection().getOpposite() == from)
+
+        if (from == getGasInputDirection().getOpposite())
         {
             if (resource != null && resource.isFluidEqual(this.liquidTank.getFluid()))
             {
@@ -671,8 +663,8 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
     public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain)
     {
 
-        // 2->5 3->4 4->2 5->3
-        if (getElectricInputDirection().getOpposite() == from)
+
+        if (from == getGasInputDirection().getOpposite())
         {
             return this.liquidTank.drain(maxDrain, doDrain);
         }
@@ -720,7 +712,7 @@ public class TileEntityGasLiquefier extends TileBaseElectricBlockWithInventory i
             tankInfo = new FluidTankInfo[] {new FluidTankInfo(this.gasTank)};
         }
 
-        if (getElectricInputDirection().getOpposite() == from)
+        if (getGasInputDirection().getOpposite() == from)
         {
             tankInfo = new FluidTankInfo[] {new FluidTankInfo(this.liquidTank)};
         }

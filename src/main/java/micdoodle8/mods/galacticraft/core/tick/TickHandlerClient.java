@@ -90,6 +90,7 @@ import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
 import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenSealer;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityScreen;
+import micdoodle8.mods.galacticraft.core.util.BlockUtil;
 import micdoodle8.mods.galacticraft.core.util.ColorUtil;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
@@ -168,7 +169,7 @@ public class TickHandlerClient
         }
     }
 
-    public static HashSet<TileEntityScreen> screenConnectionsUpdateList = new HashSet<TileEntityScreen>();
+    public static HashSet<TileEntityScreen> screenConnectionsUpdateList = new HashSet<>();
 
     static
     {
@@ -181,7 +182,8 @@ public class TickHandlerClient
 
         for (final String s : ConfigManagerCore.detectableIDs)
         {
-            BlockTuple bt = ConfigManagerCore.stringToBlock(s, "External Detectable IDs", logging);
+            //BlockTuple bt = ConfigManagerCore.stringToBlock(s, "External Detectable IDs", logging);
+            BlockTuple bt = BlockUtil.getBlockTupleFromString(s);
             if (bt == null)
             {
                 continue;
@@ -297,7 +299,7 @@ public class TickHandlerClient
             }
 
             if (player.world.provider instanceof IGalacticraftWorldProvider && OxygenUtil.shouldDisplayTankGui(minecraft.currentScreen) && OxygenUtil.noAtmosphericCombustion(player.world.provider)
-                && !(playerBaseClient.isCreative() || playerBaseClient.isSpectator()) && !minecraft.gameSettings.showDebugInfo)
+                && (!playerBaseClient.isCreative() && !playerBaseClient.isSpectator()) && !minecraft.gameSettings.showDebugInfo)
             {
                 int var6 = (TickHandlerClient.airRemaining - 90) * -1;
 
@@ -319,7 +321,7 @@ public class TickHandlerClient
             }
 
             if (playerBaseClient != null && player.world.provider instanceof IGalacticraftWorldProvider && !stats.isOxygenSetupValid() && OxygenUtil.noAtmosphericCombustion(player.world.provider)
-                && minecraft.currentScreen == null && !minecraft.gameSettings.hideGUI && !(playerBaseClient.isCreative() || playerBaseClient.isSpectator()))
+                && minecraft.currentScreen == null && !minecraft.gameSettings.hideGUI && (!playerBaseClient.isCreative() && !playerBaseClient.isSpectator()))
             {
                 OverlayOxygenWarning.renderOxygenWarningOverlay(minecraft, TickHandlerClient.tickCount);
             }
@@ -378,7 +380,7 @@ public class TickHandlerClient
 
                 if (map.containsKey(Type.SKIN))
                 {
-                    ClientProxyCore.playerHead = minecraft.getSkinManager().loadSkin((MinecraftProfileTexture) map.get(Type.SKIN), Type.SKIN);
+                    ClientProxyCore.playerHead = minecraft.getSkinManager().loadSkin(map.get(Type.SKIN), Type.SKIN);
                 } else
                 {
                     ClientProxyCore.playerHead = DefaultPlayerSkin.getDefaultSkin(EntityPlayer.getUUID(player.getGameProfile()));

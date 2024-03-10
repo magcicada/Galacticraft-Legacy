@@ -95,13 +95,13 @@ public class ContainerRocketInventory extends Container
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer par1EntityPlayer)
+    public boolean canInteractWith(EntityPlayer entityPlayer)
     {
-        return this.spaceshipInv.isUsableByPlayer(par1EntityPlayer);
+        return this.spaceshipInv.isUsableByPlayer(entityPlayer);
     }
 
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
+    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int par2)
     {
         ItemStack var3 = ItemStack.EMPTY;
         final Slot var4 = this.inventorySlots.get(par2);
@@ -139,10 +139,10 @@ public class ContainerRocketInventory extends Container
      * Callback for when the crafting gui is closed.
      */
     @Override
-    public void onContainerClosed(EntityPlayer par1EntityPlayer)
+    public void onContainerClosed(EntityPlayer entityPlayer)
     {
-        super.onContainerClosed(par1EntityPlayer);
-        this.lowerChestInventory.closeInventory(par1EntityPlayer);
+        super.onContainerClosed(entityPlayer);
+        this.lowerChestInventory.closeInventory(entityPlayer);
     }
 
     /**

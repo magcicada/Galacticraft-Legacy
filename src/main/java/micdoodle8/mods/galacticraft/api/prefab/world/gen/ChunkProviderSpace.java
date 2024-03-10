@@ -9,11 +9,7 @@ package micdoodle8.mods.galacticraft.api.prefab.world.gen;
 
 import java.util.List;
 import java.util.Random;
-import micdoodle8.mods.galacticraft.api.prefab.core.BlockMetaPair;
-import micdoodle8.mods.galacticraft.api.world.ChunkProviderBase;
-import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.perlin.generator.GradientNoise;
-import micdoodle8.mods.galacticraft.core.world.gen.EnumCraterSize;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.entity.EnumCreatureType;
@@ -23,6 +19,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
+
+import net.minecraftforge.event.ForgeEventFactory;
+
+import micdoodle8.mods.galacticraft.api.prefab.core.BlockMetaPair;
+import micdoodle8.mods.galacticraft.api.world.ChunkProviderBase;
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.perlin.generator.GradientNoise;
+import micdoodle8.mods.galacticraft.core.world.gen.EnumCraterSize;
 
 /**
  * Do not include this prefab class in your released mod download.
@@ -336,9 +340,10 @@ public abstract class ChunkProviderSpace extends ChunkProviderBase
         final long var7 = this.rand.nextLong() / 2L * 2L + 1L;
         final long var9 = this.rand.nextLong() / 2L * 2L + 1L;
         this.rand.setSeed(x * var7 + z * var9 ^ this.world.getSeed());
+        ForgeEventFactory.onChunkPopulate(true, this, this.world, this.rand, x, z, false);
         this.decoratePlanet(this.world, this.rand, var4, var5);
         this.onPopulate(x, z);
-
+        ForgeEventFactory.onChunkPopulate(false, this, this.world, this.rand, x, z, false);
         BlockFalling.fallInstantly = false;
     }
 

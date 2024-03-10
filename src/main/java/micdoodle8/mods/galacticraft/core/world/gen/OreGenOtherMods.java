@@ -25,6 +25,7 @@ import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.dimension.WorldProviderMoon;
 import micdoodle8.mods.galacticraft.core.dimension.WorldProviderSpaceStation;
+import micdoodle8.mods.galacticraft.core.util.BlockUtil;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.planets.mars.blocks.MarsBlocks;
 import micdoodle8.mods.galacticraft.planets.mars.dimension.WorldProviderMars;
@@ -96,7 +97,7 @@ public class OreGenOtherMods
                 {
                     s = str;
                 }
-                BlockTuple bt = ConfigManagerCore.stringToBlock(s, "Other mod ore generate IDs", true);
+                BlockTuple bt = BlockUtil.getBlockTupleFromString(s);
                 if (bt == null)
                 {
                     continue;

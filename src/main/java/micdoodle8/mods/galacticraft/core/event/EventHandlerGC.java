@@ -115,6 +115,7 @@ import micdoodle8.mods.galacticraft.core.proxy.ClientProxyCore;
 import micdoodle8.mods.galacticraft.core.tick.TickHandlerServer;
 import micdoodle8.mods.galacticraft.core.util.ASMUtil;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
+import micdoodle8.mods.galacticraft.core.util.DamageSourceGC;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.OxygenUtil;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
@@ -376,6 +377,8 @@ public class EventHandlerGC
                         {
                             return;
                         }
+
+                        entityLiving.attackEntityFrom(DamageSourceGC.oxygenSuffocation, Math.max(ConfigManagerCore.suffocationDamage / 2, 1));
 
                         GCCoreOxygenSuffocationEvent suffocationEventPost = new GCCoreOxygenSuffocationEvent.Post(entityLiving);
                         MinecraftForge.EVENT_BUS.post(suffocationEventPost);

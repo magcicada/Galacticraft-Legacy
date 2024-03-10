@@ -3,9 +3,10 @@ plugins {
     id 'eclipse'
     id 'org.cadixdev.licenser' version '0.6.1'
     id 'com.diffplug.spotless' version '6.13.0'
-    id 'net.minecraftforge.gradle' version '5.1.+'
-    id 'net.galacticraft.internal.legacy' version '1.0.0'
-    id 'net.galacticraft.internal.maven' version '1.0.1'
+    id 'net.minecraftforge.gradle' version '6.+'
+    id 'net.galacticraft.changelog' version '1.0.4'
+    id 'net.galacticraft.internal.legacy' version '1.0.5'
+    id 'nexus-publishing' version '2.1'
 }
 
 group = "dev.galacticraft"
@@ -23,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
+    minecraft "net.minecraftforge:forge:${MC_VERSION}-${forge_version}"
 
     compileRequired fg.deobf('mod.dependency:mekanism:9.8.3.390')
     compileRequired fg.deobf('mod.dependency:industrialcraft-2:2.8.222-ex112')
@@ -78,13 +79,11 @@ clean {
 }
 
 tokens {
-    withToken('version', version)
-    classes("Constants.java")
-    resources("mcmod.info")
+    replace('version', version)
 }
 
 changelog {
-	fromTag('4.0.4')
+	fromTag('4.0.5')
 }
 
 maven {
@@ -97,7 +96,7 @@ modpublishing {
 
 	changelogPath(changelog.changelogFile)
 
-    curseforge('364345') {
+    curseforge('564236') {
     	if (System.getenv().CI)
     		apiKey = 'none'
 	    relations {
@@ -134,8 +133,4 @@ modpublishing {
 
 tasks.withType(GenerateModuleMetadata).configureEach {
     enabled = false
-}
-
-build {
-    mustRunAfter(clean)
 }

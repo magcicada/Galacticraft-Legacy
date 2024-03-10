@@ -13,19 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import micdoodle8.mods.galacticraft.api.vector.Vector3;
-import micdoodle8.mods.galacticraft.core.Constants;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityDeconstructor;
-import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
-import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
-import micdoodle8.mods.galacticraft.core.util.GalacticLog;
-import micdoodle8.mods.galacticraft.planets.asteroids.AsteroidsModule;
-import micdoodle8.mods.galacticraft.planets.asteroids.ConfigManagerAsteroids;
-import micdoodle8.mods.galacticraft.planets.datafix.GCPlanetsDataFixers;
-import micdoodle8.mods.galacticraft.planets.mars.ConfigManagerMars;
-import micdoodle8.mods.galacticraft.planets.mars.MarsModule;
-import micdoodle8.mods.galacticraft.planets.venus.ConfigManagerVenus;
-import micdoodle8.mods.galacticraft.planets.venus.VenusModule;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Property;
@@ -43,7 +31,19 @@ import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.relauncher.Side;
+
+import micdoodle8.mods.galacticraft.api.vector.Vector3;
+import micdoodle8.mods.galacticraft.core.Constants;
+import micdoodle8.mods.galacticraft.core.tile.TileEntityDeconstructor;
+import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
+import micdoodle8.mods.galacticraft.core.util.GalacticLog;
+import micdoodle8.mods.galacticraft.planets.asteroids.AsteroidsModule;
+import micdoodle8.mods.galacticraft.planets.asteroids.ConfigManagerAsteroids;
+import micdoodle8.mods.galacticraft.planets.datafix.GCPlanetsDataFixers;
+import micdoodle8.mods.galacticraft.planets.mars.ConfigManagerMars;
+import micdoodle8.mods.galacticraft.planets.mars.MarsModule;
+import micdoodle8.mods.galacticraft.planets.venus.ConfigManagerVenus;
+import micdoodle8.mods.galacticraft.planets.venus.VenusModule;
 
 @Mod(modid = Constants.MOD_ID_PLANETS,
     name = GalacticraftPlanets.NAME,
@@ -130,13 +130,6 @@ public class GalacticraftPlanets
     {
         GalacticraftPlanets.proxy.postInit(event);
         TileEntityDeconstructor.initialiseRecipeListPlanets();
-        if (event.getSide() == Side.SERVER)
-            this.loadLanguagePlanets("en_US");
-    }
-
-    public void loadLanguagePlanets(String lang)
-    {
-        GCCoreUtil.loadLanguage(lang, GalacticraftPlanets.ASSET_PREFIX, GCPlanetsSource);
     }
 
     @EventHandler
@@ -212,7 +205,7 @@ public class GalacticraftPlanets
     {
         if (propOrder.get(currentCat) == null)
         {
-            propOrder.put(currentCat, new ArrayList<String>());
+            propOrder.put(currentCat, new ArrayList<>());
         }
         propOrder.get(currentCat).add(prop.getName());
     }

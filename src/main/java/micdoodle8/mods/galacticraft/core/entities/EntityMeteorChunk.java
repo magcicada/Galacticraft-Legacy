@@ -422,13 +422,13 @@ public class EntityMeteorChunk extends Entity implements IProjectile
     }
 
     @Override
-    public void onCollideWithPlayer(EntityPlayer par1EntityPlayer)
+    public void onCollideWithPlayer(EntityPlayer entityPlayer)
     {
         if (!this.world.isRemote && this.inGround)
         {
-            boolean flag = this.canBePickedUp == 1 || this.canBePickedUp == 2 && par1EntityPlayer.capabilities.isCreativeMode;
+            boolean flag = this.canBePickedUp == 1 || this.canBePickedUp == 2 && entityPlayer.capabilities.isCreativeMode;
 
-            if (this.canBePickedUp == 1 && !par1EntityPlayer.inventory.addItemStackToInventory(new ItemStack(GCItems.meteorChunk, 1, 0)))
+            if (this.canBePickedUp == 1 && !entityPlayer.inventory.addItemStackToInventory(new ItemStack(GCItems.meteorChunk, 1, 0)))
             {
                 flag = false;
             }
@@ -436,7 +436,7 @@ public class EntityMeteorChunk extends Entity implements IProjectile
             if (flag)
             {
                 this.playSound(SoundEvents.ENTITY_ITEM_PICKUP, 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
-                par1EntityPlayer.onItemPickup(this, 1);
+                entityPlayer.onItemPickup(this, 1);
                 this.setDead();
             }
         }

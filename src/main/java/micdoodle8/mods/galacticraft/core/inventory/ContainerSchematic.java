@@ -52,9 +52,9 @@ public class ContainerSchematic extends Container
     }
 
     @Override
-    public void onContainerClosed(EntityPlayer par1EntityPlayer)
+    public void onContainerClosed(EntityPlayer entityPlayer)
     {
-        super.onContainerClosed(par1EntityPlayer);
+        super.onContainerClosed(entityPlayer);
 
         if (!this.world.isRemote)
         {
@@ -64,7 +64,7 @@ public class ContainerSchematic extends Container
 
                 if (!var3.isEmpty())
                 {
-                    par1EntityPlayer.entityDropItem(var3, 0.0F);
+                    entityPlayer.entityDropItem(var3, 0.0F);
                 }
             }
         }
@@ -77,7 +77,7 @@ public class ContainerSchematic extends Container
     }
 
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
+    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int par2)
     {
         ItemStack var3 = ItemStack.EMPTY;
         final Slot var4 = (Slot) this.inventorySlots.get(par2);

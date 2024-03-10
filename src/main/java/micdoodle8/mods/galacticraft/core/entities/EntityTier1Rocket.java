@@ -224,9 +224,9 @@ public class EntityTier1Rocket extends EntityTieredRocket
     }
 
     @Override
-    public boolean isUsableByPlayer(EntityPlayer par1EntityPlayer)
+    public boolean isUsableByPlayer(EntityPlayer entityPlayer)
     {
-        return !this.isDead && par1EntityPlayer.getDistanceSq(this) <= 64.0D;
+        return !this.isDead && entityPlayer.getDistanceSq(this) <= 64.0D;
     }
 
     @Override

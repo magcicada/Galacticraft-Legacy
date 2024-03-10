@@ -18,9 +18,6 @@ import java.util.TreeMap;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.ConfigElement;
@@ -30,7 +27,6 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import micdoodle8.mods.galacticraft.api.vector.BlockTuple;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.energy.EnergyConfigHandler;
@@ -66,8 +62,6 @@ public class ConfigManagerCore
     public static boolean                    disableLander;
     public static boolean                    recipesRequireGCAdvancedMetals = true;
     public static boolean                    allowLiquidGratings;
-    //    public static int mapfactor;
-    //    public static int mapsize;
 
     // DIMENSIONS
     public static int                        idDimensionOverworld;
@@ -472,8 +466,9 @@ public class ConfigManagerCore
 
             try
             {
-                prop = getConfig(Constants.CONFIG_CATEGORY_COMPATIBILITY, "External Sealable IDs", new String[] {Block.REGISTRY.getNameForObject(Blocks.GLASS_PANE) + ":0"});
-                prop.setComment("List non-opaque blocks from other mods (for example, special types of glass) that the Oxygen Sealer should recognize as solid seals. Format is BlockName or BlockName:metadata");
+                prop = getConfig(Constants.CONFIG_CATEGORY_COMPATIBILITY, "External Sealable IDs", new String[] {"glass_pane"});
+                prop.setComment(
+                    "List non-opaque blocks from other mods (for example, special types of glass) that the Oxygen Sealer should recognize as solid seals. Format is 'modid:blockname:meta'\n'modid' is optional but will default to 'minecraft'\n'meta' can be '*' and will be all variants of that block if any");
                 prop.setLanguageKey("gc.configgui.sealable_i_ds").setRequiresMcRestart(true);
                 sealableIDs = prop.getStringList();
                 finishProp(prop);
@@ -484,7 +479,7 @@ public class ConfigManagerCore
 
             prop = getConfig(Constants.CONFIG_CATEGORY_COMPATIBILITY, "External Detectable IDs", new String[] {Block.REGISTRY.getNameForObject(Blocks.COAL_ORE).getPath(), Block.REGISTRY.getNameForObject(Blocks.DIAMOND_ORE).getPath(), Block.REGISTRY.getNameForObject(Blocks.GOLD_ORE)
                 .getPath(), Block.REGISTRY.getNameForObject(Blocks.IRON_ORE).getPath(), Block.REGISTRY.getNameForObject(Blocks.LAPIS_ORE).getPath(), Block.REGISTRY.getNameForObject(Blocks.REDSTONE_ORE).getPath(), Block.REGISTRY.getNameForObject(Blocks.LIT_REDSTONE_ORE).getPath()});
-            prop.setComment("List blocks from other mods that the Sensor Glasses should recognize as solid blocks. Format is BlockName or BlockName:metadata.");
+            prop.setComment("List blocks from other mods that the Sensor Glasses should recognize as solid blocks. Format is 'modid:blockname:meta'\n'modid' is optional but will default to 'minecraft'\n'meta' can be '*' and will be all variants of that block if any");
             prop.setLanguageKey("gc.configgui.detectable_i_ds").setRequiresMcRestart(true);
             detectableIDs = prop.getStringList();
             finishProp(prop);
@@ -732,7 +727,7 @@ public class ConfigManagerCore
     {
         if (propOrder.get(currentCat) == null)
         {
-            propOrder.put(currentCat, new ArrayList<String>());
+            propOrder.put(currentCat, new ArrayList<>());
         }
         propOrder.get(currentCat).add(prop.getName());
     }
@@ -871,69 +866,6 @@ public class ConfigManagerCore
         list.addAll(new ConfigElement(config.getCategory(Constants.CONFIG_CATEGORY_ENTITIES)).getChildElements());
 
         return list;
-    }
-
-    public static BlockTuple stringToBlock(String s, String caller, boolean logging)
-    {
-        int lastColon = s.lastIndexOf(':');
-        int meta = -1;
-        String name;
-
-        if (lastColon > 0)
-        {
-            try
-            {
-                meta = Integer.parseInt(s.substring(lastColon + 1, s.length()));
-            } catch (NumberFormatException ex)
-            {}
-        }
-
-        if (meta == -1)
-        {
-            name = s;
-        }
-        else
-        {
-            name = s.substring(0, lastColon);
-        }
-
-        Block block = Block.getBlockFromName(name);
-        if (block == null)
-        {
-            Item item = Item.REGISTRY.getObject(new ResourceLocation(name));
-            if (item instanceof ItemBlock)
-            {
-                block = ((ItemBlock) item).getBlock();
-            }
-            if (block == null)
-            {
-                if (logging)
-                {
-                    GalacticraftCore.logger.error("[config] " + caller + ": unrecognised block name '" + s + "'.");
-                }
-                return null;
-            }
-        }
-        try
-        {
-            Integer.parseInt(name);
-            String bName = Block.REGISTRY.getNameForObject(block).toString();
-            if (logging)
-            {
-                GalacticraftCore.logger.info("[config] " + caller + ": the use of numeric IDs is discouraged, please use " + bName + " instead of " + name);
-            }
-        } catch (NumberFormatException ex)
-        {}
-        if (Blocks.AIR == block)
-        {
-            if (logging)
-            {
-                GalacticraftCore.logger.info("[config] " + caller + ": not a good idea to specify air, skipping that!");
-            }
-            return null;
-        }
-
-        return new BlockTuple(block, meta);
     }
 
     public static List<Object> getServerConfigOverride()

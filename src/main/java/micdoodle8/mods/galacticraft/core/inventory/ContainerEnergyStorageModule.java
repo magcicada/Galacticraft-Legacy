@@ -55,9 +55,9 @@ public class ContainerEnergyStorageModule extends Container
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer par1EntityPlayer)
+    public boolean canInteractWith(EntityPlayer entityPlayer)
     {
-        return this.tileEntity.isUsableByPlayer(par1EntityPlayer);
+        return this.tileEntity.isUsableByPlayer(entityPlayer);
     }
 
     /**
@@ -65,7 +65,7 @@ public class ContainerEnergyStorageModule extends Container
      * clicking.
      */
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotID)
+    public ItemStack transferStackInSlot(EntityPlayer entityPlayer, int slotID)
     {
         ItemStack returnStack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(slotID);
@@ -139,7 +139,7 @@ public class ContainerEnergyStorageModule extends Container
                 return ItemStack.EMPTY;
             }
 
-            slot.onTake(par1EntityPlayer, itemStack);
+            slot.onTake(entityPlayer, itemStack);
         }
 
         return returnStack;

@@ -40,6 +40,7 @@ import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.blocks.BlockUnlitTorch;
 import micdoodle8.mods.galacticraft.core.tick.TickHandlerServer;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenSealer;
+import micdoodle8.mods.galacticraft.core.util.BlockUtil.MultiBlockStateHolder;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.wrappers.ScheduledBlockChange;
@@ -80,7 +81,7 @@ public class ThreadFindSeal
 
     public ThreadFindSeal(TileEntityOxygenSealer sealer)
     {
-        this(sealer.getWorld(), sealer.getPos().up(), sealer.getFindSealChecks(), new ArrayList<TileEntityOxygenSealer>(Collections.singletonList(sealer)));
+        this(sealer.getWorld(), sealer.getPos().up(), sealer.getFindSealChecks(), new ArrayList<>(Collections.singletonList(sealer)));
     }
 
     public ThreadFindSeal(World world, BlockPos head, int checkCount, List<TileEntityOxygenSealer> sealers)
@@ -96,7 +97,7 @@ public class ThreadFindSeal
         this.foundAmbientThermal = false;
         checkedClear();
         checkedSize = 0;
-        this.torchesToUpdate = new LinkedList<BlockVec3>();
+        this.torchesToUpdate = new LinkedList<>();
 
         this.sealersAround = TileEntityOxygenSealer.getSealersAround(world, head, 1024 * 1024);
 
@@ -173,11 +174,11 @@ public class ThreadFindSeal
         TileEntity tile = this.head.getTileEntityOnSide(world, EnumFacing.DOWN);
         this.foundAmbientThermal = tile instanceof TileEntityOxygenSealer && ((TileEntityOxygenSealer) tile).thermalControlEnabled();
         this.checkedAdd(this.head);
-        this.currentLayer = new LinkedList<BlockVec3>();
-        this.airToReplace = new LinkedList<BlockVec3>();
-        this.airToReplaceBright = new LinkedList<BlockVec3>();
-        this.ambientThermalTracked = new LinkedList<BlockVec3>();
-        this.ambientThermalTrackedBright = new LinkedList<BlockVec3>();
+        this.currentLayer = new LinkedList<>();
+        this.airToReplace = new LinkedList<>();
+        this.airToReplaceBright = new LinkedList<>();
+        this.ambientThermalTracked = new LinkedList<>();
+        this.ambientThermalTrackedBright = new LinkedList<>();
 
         if (this.checkCount > 0)
         {
@@ -227,10 +228,10 @@ public class ThreadFindSeal
         {
             int checkedSave = checkedSize;
             checkedClear();
-            this.breatheableToReplace = new LinkedList<BlockVec3>();
-            this.breatheableToReplaceBright = new LinkedList<BlockVec3>();
-            this.fireToReplace = new LinkedList<BlockVec3>();
-            this.otherSealers = new LinkedList<TileEntityOxygenSealer>();
+            this.breatheableToReplace = new LinkedList<>();
+            this.breatheableToReplaceBright = new LinkedList<>();
+            this.fireToReplace = new LinkedList<>();
+            this.otherSealers = new LinkedList<>();
             // unseal() will mark breatheableAir blocks for change as it
             // finds them, also searches for unchecked sealers
             this.currentLayer.clear();
@@ -262,7 +263,7 @@ public class ThreadFindSeal
                         BlockVec3 newhead = new BlockVec3(otherSealer).translate(0, 1, 0);
                         this.sealed = true;
                         this.checkCount = otherSealer.getFindSealChecks();
-                        this.sealers = new LinkedList<TileEntityOxygenSealer>();
+                        this.sealers = new LinkedList<>();
                         this.sealers.add(otherSealer);
                         if (otherSealer.thermalControlEnabled())
                         {
@@ -273,7 +274,7 @@ public class ThreadFindSeal
                         this.currentLayer.clear();
                         this.airToReplace.clear();
                         this.airToReplaceBright.clear();
-                        this.torchesToUpdate = new LinkedList<BlockVec3>();
+                        this.torchesToUpdate = new LinkedList<>();
                         this.currentLayer.add(newhead.clone());
                         if (newhead.x < -29990000 || newhead.z < -29990000 || newhead.x >= 29990000 || newhead.z >= 29990000)
                         {
@@ -399,7 +400,7 @@ public class ThreadFindSeal
     {
         if (!this.airToReplace.isEmpty() || !this.airToReplaceBright.isEmpty() || !ambientThermalTracked.isEmpty() || !ambientThermalTracked.isEmpty())
         {
-            List<ScheduledBlockChange> changeList = new LinkedList<ScheduledBlockChange>();
+            List<ScheduledBlockChange> changeList = new LinkedList<>();
             Block breatheableAirID = GCBlocks.breatheableAir;
             Block breatheableAirIDBright = GCBlocks.brightBreatheableAir;
             int metadata = ambientThermal ? 1 : 0;
@@ -442,7 +443,7 @@ public class ThreadFindSeal
     {
         if (!this.breatheableToReplace.isEmpty() || !this.breatheableToReplaceBright.isEmpty())
         {
-            List<ScheduledBlockChange> changeList = new LinkedList<ScheduledBlockChange>();
+            List<ScheduledBlockChange> changeList = new LinkedList<>();
             for (BlockVec3 checkedVec : this.breatheableToReplace)
             {
                 changeList.add(new ScheduledBlockChange(checkedVec.toBlockPos(), Blocks.AIR.getDefaultState(), 0));
@@ -555,7 +556,7 @@ public class ThreadFindSeal
 
             // Set up the next layer as current layer for the while loop
             this.currentLayer = nextLayer;
-            nextLayer = new LinkedList<BlockVec3>();
+            nextLayer = new LinkedList<>();
         }
     }
 
@@ -660,7 +661,7 @@ public class ThreadFindSeal
 
             // Set up the next layer as current layer for the while loop
             this.currentLayer = nextLayer;
-            nextLayer = new LinkedList<BlockVec3>();
+            nextLayer = new LinkedList<>();
         }
     }
 
@@ -791,7 +792,7 @@ public class ThreadFindSeal
 
             // Is there a further layer of air/permeable blocks to test?
             this.currentLayer = nextLayer;
-            nextLayer = new LinkedList<BlockVec3>();
+            nextLayer = new LinkedList<>();
         }
     }
 
@@ -932,7 +933,7 @@ public class ThreadFindSeal
 
             // Is there a further layer of air/permeable blocks to test?
             this.currentLayer = nextLayer;
-            nextLayer = new LinkedList<BlockVec3>();
+            nextLayer = new LinkedList<>();
         }
     }
 
@@ -1038,7 +1039,7 @@ public class ThreadFindSeal
 
     public List<BlockPos> checkedAll()
     {
-        List<BlockPos> list = new LinkedList<BlockPos>();
+        List<BlockPos> list = new LinkedList<>();
         int x = head.x;
         int z = head.z;
         for (int i = 0; i < 256; i++)
@@ -1172,16 +1173,28 @@ public class ThreadFindSeal
             return false;
         }
 
-        // Solid but non-opaque blocks, for example special glass
-        if (OxygenPressureProtocol.nonPermeableBlocks.containsKey(block))
+        for (MultiBlockStateHolder mbsh : OxygenPressureProtocol.newNonPermeableBlockStateList)
         {
-            ArrayList<Integer> metaList = OxygenPressureProtocol.nonPermeableBlocks.get(block);
-            if (metaList.contains(Integer.valueOf(-1)) || metaList.contains(vec.getBlockMetadata(this.world)))
+            if (mbsh.getBlock().equals(block))
             {
-                checkedAdd(vec);
-                return false;
+                if (mbsh.getBlockstateList().contains(state))
+                {
+                    checkedAdd(vec);
+                    return false;
+                }
             }
         }
+
+        // Solid but non-opaque blocks, for example special glass
+        //        if (OxygenPressureProtocol.nonPermeableBlocks.containsKey(block))
+        //        {
+        //            ArrayList<Integer> metaList = OxygenPressureProtocol.nonPermeableBlocks.get(block);
+        //            if (metaList.contains(Integer.valueOf(-1)) || metaList.contains(vec.getBlockMetadata(this.world)))
+        //            {
+        //                checkedAdd(vec);
+        //                return false;
+        //            }
+        //        }
 
         if (block instanceof BlockUnlitTorch)
         {
@@ -1228,9 +1241,9 @@ public class ThreadFindSeal
         if (block instanceof BlockPistonBase)
         {
             BlockPistonBase piston = (BlockPistonBase) block;
-            if (state.getValue(BlockPistonBase.EXTENDED).booleanValue())
+            if (state.getValue(BlockPistonBase.EXTENDED))
             {
-                int facing = ((EnumFacing) state.getValue(BlockPistonBase.FACING)).getIndex();
+                int facing = state.getValue(BlockPistonBase.FACING).getIndex();
                 if (side == facing)
                 {
                     this.checkCount--;

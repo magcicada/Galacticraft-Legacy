@@ -318,17 +318,7 @@ public class ClientProxyCore extends CommonProxyCore implements ISelectiveResour
     @Override
     public void onResourceManagerReload(IResourceManager resourceManager, Predicate<IResourceType> resourcePredicate)
     {
-        String lang = net.minecraft.client.Minecraft.getMinecraft().gameSettings.language;
-        GalacticraftCore.logger.debug("Reloading entity names for language " + lang);
-        if (lang == null)
-        {
-            lang = "en_us";
-        }
-        GalacticraftCore.instance.loadLanguageCore(lang);
-        if (!GCCoreUtil.langDisable)
-        {
-            GalacticraftPlanets.instance.loadLanguagePlanets(lang);
-        }
+        //NOOP
     }
 
     @Override
@@ -385,15 +375,6 @@ public class ClientProxyCore extends CommonProxyCore implements ISelectiveResour
             modelResourceLocation = new ModelResourceLocation("galacticraftcore:buggy" + (i > 0 ? "_" + i : ""), "inventory");
             ModelLoader.setCustomModelResourceLocation(GCItems.buggy, i, modelResourceLocation);
         }
-
-        //        for (PartialCanister container : ClientProxyCore.canisters)
-        //        {
-        //            modelResourceLocation = new ModelResourceLocation(container.getModID() + ":" + container.getBaseName() + "_0", "inventory");
-        //            for (int i = 0; i < container.getItem().getMaxDamage(); ++i)
-        //            {
-        //                ModelLoader.setCustomModelResourceLocation(container.getItem(), i, modelResourceLocation);
-        //            }
-        //        }
 
         modelResourceLocation = new ModelResourceLocation("galacticraftcore:flag", "inventory");
         ModelLoader.setCustomModelResourceLocation(GCItems.flag, 0, modelResourceLocation);

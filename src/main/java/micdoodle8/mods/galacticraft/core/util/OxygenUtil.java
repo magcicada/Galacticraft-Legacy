@@ -7,7 +7,6 @@
 
 package micdoodle8.mods.galacticraft.core.util;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import net.minecraft.block.Block;
@@ -60,6 +59,7 @@ import micdoodle8.mods.galacticraft.core.items.ItemOxygenGear;
 import micdoodle8.mods.galacticraft.core.items.ItemOxygenMask;
 import micdoodle8.mods.galacticraft.core.items.ItemOxygenTank;
 import micdoodle8.mods.galacticraft.core.tile.TileEntityOxygenDistributor;
+import micdoodle8.mods.galacticraft.core.util.BlockUtil.MultiBlockStateHolder;
 
 public class OxygenUtil
 {
@@ -277,12 +277,15 @@ public class OxygenUtil
             } else if (block instanceof BlockLiquid)
             {
                 return -1;
-            } else if (OxygenPressureProtocol.nonPermeableBlocks.containsKey(block))
+            }
+            for (MultiBlockStateHolder mbsh : OxygenPressureProtocol.newNonPermeableBlockStateList)
             {
-                ArrayList<Integer> metaList = OxygenPressureProtocol.nonPermeableBlocks.get(block);
-                if (metaList.contains(-1) || metaList.contains(state.getBlock().getMetaFromState(state)))
+                if (mbsh.getBlock().equals(block))
                 {
-                    return -1;
+                    if (mbsh.getBlockstateList().contains(state))
+                    {
+                        return -1;
+                    }
                 }
             }
         } else
@@ -331,7 +334,7 @@ public class OxygenUtil
         {
             IBlockState state = world.getBlockState(vec);
             int meta = state.getBlock().getMetaFromState(state);
-            return !(side == EnumFacing.DOWN && (meta & 8) == 8 || side == EnumFacing.UP && (meta & 8) == 0);
+            return (((side != EnumFacing.DOWN) || ((meta & 8) != 8)) && ((side != EnumFacing.UP) || ((meta & 8) != 0)));
         }
 
         // Farmland etc only seals on the solid underside
@@ -343,7 +346,7 @@ public class OxygenUtil
         if (block instanceof BlockPistonBase)
         {
             IBlockState state = world.getBlockState(vec);
-            if ((Boolean) state.getValue(BlockPistonBase.EXTENDED))
+            if (state.getValue(BlockPistonBase.EXTENDED))
             {
                 int meta0 = state.getBlock().getMetaFromState(state);
                 EnumFacing facing = BlockPistonBase.getFacing(meta0);

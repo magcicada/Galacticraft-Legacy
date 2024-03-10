@@ -9,6 +9,20 @@ package micdoodle8.mods.galacticraft.core.world.gen;
 
 import java.util.List;
 import java.util.Random;
+
+import net.minecraft.block.BlockFalling;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.ChunkPrimer;
+
+import net.minecraftforge.event.ForgeEventFactory;
+
 import micdoodle8.mods.galacticraft.api.prefab.world.gen.BiomeAdaptive;
 import micdoodle8.mods.galacticraft.api.prefab.world.gen.MapGenBaseMeta;
 import micdoodle8.mods.galacticraft.api.world.ChunkProviderBase;
@@ -20,16 +34,6 @@ import micdoodle8.mods.galacticraft.core.world.gen.dungeon.DungeonConfiguration;
 import micdoodle8.mods.galacticraft.core.world.gen.dungeon.MapGenDungeon;
 import micdoodle8.mods.galacticraft.core.world.gen.dungeon.RoomBoss;
 import micdoodle8.mods.galacticraft.core.world.gen.dungeon.RoomTreasure;
-import net.minecraft.block.BlockFalling;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.ChunkPrimer;
 
 public class ChunkProviderMoon extends ChunkProviderBase
 {
@@ -172,7 +176,7 @@ public class ChunkProviderMoon extends ChunkProviderBase
     @Override
     public Chunk generateChunk(int x, int z)
     {
-        this.rand.setSeed((long) x * 341873128712L + (long) z * 132897987541L);
+        this.rand.setSeed(x * 341873128712L + z * 132897987541L);
         ChunkPrimer chunkprimer = new ChunkPrimer();
         this.setBlocksInChunk(x, z, chunkprimer);
         this.createCraters(x, z, chunkprimer);
@@ -271,16 +275,18 @@ public class ChunkProviderMoon extends ChunkProviderBase
         this.rand.setSeed(this.world.getSeed());
         long k = this.rand.nextLong() / 2L * 2L + 1L;
         long l = this.rand.nextLong() / 2L * 2L + 1L;
-        this.rand.setSeed((long) x * k + (long) z * l ^ this.world.getSeed());
-
+        this.rand.setSeed(x * k + z * l ^ this.world.getSeed());
+        boolean flag = false;
+        ForgeEventFactory.onChunkPopulate(true, this, this.world, this.rand, x, z, flag);
         if (!ConfigManagerCore.disableMoonVillageGen)
         {
-            this.villageGenerator.generateStructure(this.world, this.rand, new ChunkPos(x, z));
+            flag = this.villageGenerator.generateStructure(this.world, this.rand, new ChunkPos(x, z));
         }
 
         this.dungeonGeneratorMoon.generateStructure(this.world, this.rand, new ChunkPos(x, z));
 
         biomegenbase.decorate(this.world, this.rand, new BlockPos(i, 0, j));
+        ForgeEventFactory.onChunkPopulate(false, this, this.world, this.rand, x, z, flag);
         BlockFalling.fallInstantly = false;
     }
 
