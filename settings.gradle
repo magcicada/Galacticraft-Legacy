@@ -1,6 +1,11 @@
 pluginManagement {
     repositories {
-		maven { url = 'https://maven.galacticraft.net/repository/internal-plugins/' }
-        maven { url = 'https://maven.galacticraft.net/repository/gradle/' }
+        mavenLocal()
+        gradlePluginPortal()
+        mavenCentral()
+        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://maven.gofancy.wtf/releases' }
+//		maven { url = 'https://maven.galacticraft.net/repository/internal-plugins/' }
+//        maven { url = 'https://maven.galacticraft.net/repository/gradle/' }
     }
 }
