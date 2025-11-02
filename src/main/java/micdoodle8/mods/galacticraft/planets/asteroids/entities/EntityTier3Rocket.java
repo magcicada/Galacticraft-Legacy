@@ -18,10 +18,10 @@ import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
 import micdoodle8.mods.galacticraft.planets.asteroids.items.AsteroidsItems;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -29,7 +29,6 @@ import net.minecraft.world.World;
 
 public class EntityTier3Rocket extends EntityTieredRocket
 {
-
     public EntityTier3Rocket(World par1World)
     {
         super(par1World);
@@ -80,12 +79,6 @@ public class EntityTier3Rocket extends EntityTieredRocket
     }
 
     @Override
-    public double getOnPadYOffset()
-    {
-        return 0.0D;
-    }
-
-    @Override
     public void onUpdate()
     {
         super.onUpdate();
@@ -104,7 +97,7 @@ public class EntityTier3Rocket extends EntityTieredRocket
         {
             if (this.world.isRemote)
             {
-                this.spawnParticles(this.getLaunched());
+                this.spawnParticles();
             }
         }
 
@@ -183,7 +176,7 @@ public class EntityTier3Rocket extends EntityTieredRocket
         }
     }
 
-    protected void spawnParticles(boolean launched)
+    protected void spawnParticles()
     {
         if (!this.isDead)
         {
@@ -215,12 +208,11 @@ public class EntityTier3Rocket extends EntityTieredRocket
             Vector3 mv4 = motionVec.clone().translate(d4);
             // T3 - Four flameballs which spread
             EntityLivingBase riddenByEntity = this.getPassengers().isEmpty() || !(this.getPassengers().get(0) instanceof EntityLivingBase) ? null : (EntityLivingBase) this.getPassengers().get(0);
-            Object[] rider = new Object[]
-            {riddenByEntity};
-            makeFlame(x2 + d1.x, y2 + d1.y, z2 + d1.z, mv1, this.getLaunched(), rider);
-            makeFlame(x2 + d2.x, y2 + d2.y, z2 + d2.z, mv2, this.getLaunched(), rider);
-            makeFlame(x2 + d3.x, y2 + d3.y, z2 + d3.z, mv3, this.getLaunched(), rider);
-            makeFlame(x2 + d4.x, y2 + d4.y, z2 + d4.z, mv4, this.getLaunched(), rider);
+            Object[] rider = new Object[] {riddenByEntity};
+            this.makeFlame(x2 + d1.x, y2 + d1.y, z2 + d1.z, mv1, this.getLaunched(), rider);
+            this.makeFlame(x2 + d2.x, y2 + d2.y, z2 + d2.z, mv2, this.getLaunched(), rider);
+            this.makeFlame(x2 + d3.x, y2 + d3.y, z2 + d3.z, mv3, this.getLaunched(), rider);
+            this.makeFlame(x2 + d4.x, y2 + d4.y, z2 + d4.z, mv4, this.getLaunched(), rider);
         }
     }
 
@@ -259,12 +251,6 @@ public class EntityTier3Rocket extends EntityTieredRocket
         GalacticraftCore.proxy.spawnParticle("launchFlameIdle", new Vector3(x2 - 0.4, y2, z2), new Vector3(x1 - 0.3D, y1 - 0.3D, z1), rider);
         GalacticraftCore.proxy.spawnParticle("launchFlameIdle", new Vector3(x2, y2, z2 + 0.4D), new Vector3(x1, y1 - 0.3D, z1 + 0.3D), rider);
         GalacticraftCore.proxy.spawnParticle("launchFlameIdle", new Vector3(x2, y2, z2 - 0.4D), new Vector3(x1, y1 - 0.3D, z1 - 0.3D), rider);
-    }
-
-    @Override
-    public boolean isUsableByPlayer(EntityPlayer entityPlayer)
-    {
-        return !this.isDead && entityPlayer.getDistanceSq(this) <= 64.0D;
     }
 
     @Override
@@ -324,5 +310,30 @@ public class EntityTier3Rocket extends EntityTieredRocket
     public float getRenderOffsetY()
     {
         return -1F;
+    }
+
+    @Override
+    public void setRocketRotation(EnumFacing enumFacing)
+    {
+        float yaw;
+
+        switch (enumFacing)
+        {
+            case SOUTH:
+                yaw = 0f;
+                break;
+            case WEST:
+                yaw = 90f;
+                break;
+            case EAST:
+                yaw = -90f;
+                break;
+            case NORTH:
+            default:
+                yaw = 180f;
+                break;
+        }
+
+        this.setRotation(yaw, 0);
     }
 }

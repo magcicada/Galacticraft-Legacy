@@ -10,21 +10,19 @@ package micdoodle8.mods.galacticraft.planets.mars.entities;
 import java.util.List;
 import java.util.Random;
 import micdoodle8.mods.galacticraft.api.prefab.entity.EntityTieredRocket;
-import micdoodle8.mods.galacticraft.api.tile.IFuelDock;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityLandingPad;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
 import micdoodle8.mods.galacticraft.planets.mars.items.MarsItems;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -108,7 +106,7 @@ public class EntityTier2Rocket extends EntityTieredRocket
         {
             if (this.world.isRemote)
             {
-                this.spawnParticles(this.getLaunched());
+                this.spawnParticles();
             }
         }
 
@@ -173,7 +171,7 @@ public class EntityTier2Rocket extends EntityTieredRocket
         {
             GCPlayerStats stats = GCPlayerStats.get(playerBase);
 
-            if (this.stacks == null || this.stacks.size() == 0)
+            if (this.stacks == null || this.stacks.isEmpty())
             {
                 stats.setRocketStacks(NonNullList.withSize(2, ItemStack.EMPTY));
             } else
@@ -187,7 +185,7 @@ public class EntityTier2Rocket extends EntityTieredRocket
         }
     }
 
-    protected void spawnParticles(boolean launched)
+    protected void spawnParticles()
     {
         if (!this.isDead)
         {
@@ -205,8 +203,6 @@ public class EntityTier2Rocket extends EntityTieredRocket
             }
 
             final double y = this.prevPosY + (this.posY - this.prevPosY) + y1 - this.motionY + (!this.getLaunched() ? 2.5D : 1D);
-            ;
-
             final double x2 = this.posX + x1 - this.motionX;
             final double z2 = this.posZ + z1 - this.motionZ;
             final double x3 = x2 + x1 / 2D;
@@ -278,12 +274,6 @@ public class EntityTier2Rocket extends EntityTieredRocket
     }
 
     @Override
-    public boolean isUsableByPlayer(EntityPlayer entityPlayer)
-    {
-        return !this.isDead && entityPlayer.getDistanceSq(this) <= 64.0D;
-    }
-
-    @Override
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
@@ -293,12 +283,6 @@ public class EntityTier2Rocket extends EntityTieredRocket
     protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readEntityFromNBT(par1NBTTagCompound);
-    }
-
-    @Override
-    public boolean isDockValid(IFuelDock dock)
-    {
-        return dock instanceof TileEntityLandingPad;
     }
 
     @Override
@@ -346,5 +330,30 @@ public class EntityTier2Rocket extends EntityTieredRocket
     public float getRenderOffsetY()
     {
         return -0.1F;
+    }
+
+    @Override
+    public void setRocketRotation(EnumFacing enumFacing)
+    {
+        float yaw;
+
+        switch (enumFacing)
+        {
+            case SOUTH:
+                yaw = 180f;
+                break;
+            case WEST:
+                yaw = -90f;
+                break;
+            case EAST:
+                yaw = 90f;
+                break;
+            case NORTH:
+            default:
+                yaw = 0f;
+                break;
+        }
+
+        this.setRotation(yaw, 0);
     }
 }

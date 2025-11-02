@@ -17,7 +17,6 @@ import net.minecraft.dispenser.IBehaviorDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.IProjectile;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -32,6 +31,7 @@ import micdoodle8.mods.galacticraft.core.blocks.MaterialOleaginous;
 import micdoodle8.mods.galacticraft.core.entities.EntityMeteorChunk;
 import micdoodle8.mods.galacticraft.core.event.EventHandlerGC;
 import micdoodle8.mods.galacticraft.core.items.ItemBucketGC;
+import micdoodle8.mods.galacticraft.core.items.ItemBuggy;
 import micdoodle8.mods.galacticraft.core.items.ItemTier1Rocket;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.planets.asteroids.items.AsteroidsItems;
@@ -201,7 +201,7 @@ public class GCFluids
             {
                 ItemBucketGC itembucket = (ItemBucketGC) stack.getItem();
                 BlockPos blockpos = source.getBlockPos().offset(source.getBlockState().getValue(BlockDispenser.FACING));
-                if (itembucket.tryPlaceContainedLiquid((EntityPlayer) null, source.getWorld(), blockpos))
+                if (itembucket.tryPlaceContainedLiquid(null, source.getWorld(), blockpos))
                 {
                     return new ItemStack(Items.BUCKET);
                 }
@@ -271,7 +271,7 @@ public class GCFluids
                     float centerX = pos.getX() + 0.5F;
                     float centerY = pos.getY() + 0.4F;
                     float centerZ = pos.getZ() + 0.5F;
-                    rocketPlaced = ItemTier1Rocket.placeRocketOnPad(stack, enumFacing, world, world.getTileEntity(pos), centerX, centerY, centerZ);
+                    rocketPlaced = ItemTier1Rocket.placeRocketOnPad(stack, enumFacing.getOpposite(), world, world.getTileEntity(pos), centerX, centerY, centerZ);
                 }
 
                 if (rocketPlaced)
@@ -298,7 +298,7 @@ public class GCFluids
                     float centerX = pos.getX() + 0.5F;
                     float centerY = pos.getY() + 0.4F;
                     float centerZ = pos.getZ() + 0.5F;
-                    rocketPlaced = ItemTier2Rocket.placeRocketOnPad(stack, enumFacing, world, world.getTileEntity(pos), centerX, centerY, centerZ);
+                    rocketPlaced = ItemTier2Rocket.placeRocketOnPad(stack, enumFacing.getOpposite(), world, world.getTileEntity(pos), centerX, centerY, centerZ);
                 }
 
                 if (rocketPlaced)
@@ -325,7 +325,33 @@ public class GCFluids
                     float centerX = pos.getX() + 0.5F;
                     float centerY = pos.getY() + 0.4F;
                     float centerZ = pos.getZ() + 0.5F;
-                    rocketPlaced = ItemTier3Rocket.placeRocketOnPad(stack, enumFacing, world, world.getTileEntity(pos), centerX, centerY, centerZ);
+                    rocketPlaced = ItemTier3Rocket.placeRocketOnPad(stack, enumFacing.getOpposite(), world, world.getTileEntity(pos), centerX, centerY, centerZ);
+                }
+
+                if (rocketPlaced)
+                {
+                    stack.splitStack(1);
+                }
+                return stack;
+            }
+        });
+
+        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(GCItems.buggy, new BehaviorDefaultDispenseItem()
+        {
+            @Override
+            public ItemStack dispenseStack(IBlockSource source, ItemStack stack)
+            {
+                World world = source.getWorld();
+                EnumFacing enumFacing = source.getBlockState().getValue(BlockDispenser.FACING);
+                BlockPos pos = source.getBlockPos().offset(enumFacing, 2);
+                IBlockState iblockstate = world.getBlockState(pos);
+                boolean rocketPlaced = false;
+                if (iblockstate.getBlock() == GCBlocks.landingPadFull && GCBlocks.landingPadFull.getMetaFromState(iblockstate) == 1)
+                {
+                    float centerX = pos.getX() + 0.5F;
+                    float centerY = pos.getY() + 0.4F;
+                    float centerZ = pos.getZ() + 0.5F;
+                    rocketPlaced = ItemBuggy.placeBuggyOnPad(stack, enumFacing, world, world.getTileEntity(pos), centerX, centerY, centerZ);
                 }
 
                 if (rocketPlaced)

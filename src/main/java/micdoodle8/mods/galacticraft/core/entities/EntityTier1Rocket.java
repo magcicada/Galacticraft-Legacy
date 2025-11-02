@@ -10,37 +10,31 @@ package micdoodle8.mods.galacticraft.core.entities;
 import java.util.List;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 import micdoodle8.mods.galacticraft.api.prefab.entity.EntityTieredRocket;
-import micdoodle8.mods.galacticraft.api.tile.IFuelDock;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
-import micdoodle8.mods.galacticraft.core.tile.TileEntityLandingPad;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
 
-//import calclavia.api.icbm.IMissile;
-
 public class EntityTier1Rocket extends EntityTieredRocket
 {
-
     public EntityTier1Rocket(World par1World)
     {
         super(par1World);
         this.setSize(1.2F, 3.5F);
-//        this.yOffset = 1.5F;
     }
 
     public EntityTier1Rocket(World par1World, double par2, double par4, double par6, EnumRocketType rocketType)
@@ -49,19 +43,12 @@ public class EntityTier1Rocket extends EntityTieredRocket
         this.rocketType = rocketType;
         this.stacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
         this.setSize(1.2F, 3.5F);
-//        this.yOffset = 1.5F;
     }
 
     @Override
     public double getMountedYOffset()
     {
         return 0.3D;
-    }
-
-    @Override
-    public float getRotateOffset()
-    {
-        return -1.5F;
     }
 
     @Override
@@ -89,7 +76,7 @@ public class EntityTier1Rocket extends EntityTieredRocket
         {
             if (this.world.isRemote)
             {
-                this.spawnParticles(this.getLaunched());
+                this.spawnParticles();
             }
         }
 
@@ -168,7 +155,7 @@ public class EntityTier1Rocket extends EntityTieredRocket
         }
     }
 
-    protected void spawnParticles(boolean launched)
+    protected void spawnParticles()
     {
         if (!this.isDead)
         {
@@ -224,12 +211,6 @@ public class EntityTier1Rocket extends EntityTieredRocket
     }
 
     @Override
-    public boolean isUsableByPlayer(EntityPlayer entityPlayer)
-    {
-        return !this.isDead && entityPlayer.getDistanceSq(this) <= 64.0D;
-    }
-
-    @Override
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeEntityToNBT(par1NBTTagCompound);
@@ -259,24 +240,6 @@ public class EntityTier1Rocket extends EntityTieredRocket
     }
 
     @Override
-    public boolean hasCustomName()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean isItemValidForSlot(int i, ItemStack itemstack)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean isDockValid(IFuelDock dock)
-    {
-        return dock instanceof TileEntityLandingPad;
-    }
-
-    @Override
     public int getRocketTier()
     {
         return 1;
@@ -301,8 +264,27 @@ public class EntityTier1Rocket extends EntityTieredRocket
     }
 
     @Override
-    public double getOnPadYOffset()
+    public void setRocketRotation(EnumFacing enumFacing)
     {
-        return 0.0D;
+        float yaw;
+
+        switch (enumFacing)
+        {
+            case SOUTH:
+                yaw = 90f;
+                break;
+            case WEST:
+                yaw = 135f;
+                break;
+            case EAST:
+                yaw = -135f;
+                break;
+            case NORTH:
+            default:
+                yaw = 180f;
+                break;
+        }
+
+        this.setRotation(yaw, 0);
     }
 }

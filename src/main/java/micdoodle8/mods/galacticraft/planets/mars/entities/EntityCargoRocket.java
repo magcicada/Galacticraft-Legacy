@@ -40,7 +40,6 @@ import net.minecraft.world.WorldServer;
 
 public class EntityCargoRocket extends EntityAutoRocket implements IRocketType, IInventory, IWorldTransferCallback
 {
-
     public EnumRocketType rocketType;
     public float rumble;
 
@@ -72,7 +71,7 @@ public class EntityCargoRocket extends EntityAutoRocket implements IRocketType, 
         {
             if (stack != null && !stack.isEmpty())
             {
-                weight += 0.1D;
+                weight += 0.1f;
             }
         }
 
@@ -166,7 +165,7 @@ public class EntityCargoRocket extends EntityAutoRocket implements IRocketType, 
         {
             if (this.world.isRemote)
             {
-                this.spawnParticles(this.getLaunched());
+                this.spawnParticles();
             }
         }
     }
@@ -177,7 +176,7 @@ public class EntityCargoRocket extends EntityAutoRocket implements IRocketType, 
         return true;
     }
 
-    protected void spawnParticles(boolean launched)
+    protected void spawnParticles()
     {
         double sinPitch = Math.sin(this.rotationPitch / Constants.RADIANS_TO_DEGREES_D);
         double x1 = 2 * Math.cos(this.rotationYaw / Constants.RADIANS_TO_DEGREES_D) * sinPitch;
@@ -267,7 +266,7 @@ public class EntityCargoRocket extends EntityAutoRocket implements IRocketType, 
 
         if (this.targetVec != null)
         {
-            GalacticraftPlanets.logger.debug("Destination location = " + this.targetVec.toString());
+            GalacticraftPlanets.logger.debug("Destination location = " + this.targetVec);
             if (this.targetDimension != GCCoreUtil.getDimensionID(this.world))
             {
                 GalacticraftPlanets.logger.debug("Destination is in different dimension: " + this.targetDimension);
@@ -295,13 +294,11 @@ public class EntityCargoRocket extends EntityAutoRocket implements IRocketType, 
                 }
                 GalacticraftPlanets.logger.info("Error: the server failed to load the dimension the cargo rocket is supposed to land in. Destroying rocket!");
                 this.setDead();
-                return;
             } else
             {
                 GalacticraftPlanets.logger.debug("Cargo rocket going into landing mode in same destination.");
                 this.setPosition(this.targetVec.getX() + 0.5F, this.targetVec.getY() + 800, this.targetVec.getZ() + 0.5F);
                 this.setLaunchPhase(EnumLaunchPhase.LANDING);
-                return;
             }
         } else
         {
@@ -324,7 +321,7 @@ public class EntityCargoRocket extends EntityAutoRocket implements IRocketType, 
     @Override
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
-        if (world.isRemote)
+        if (this.world.isRemote)
             return;
         nbt.setInteger("Type", this.rocketType.getIndex());
 

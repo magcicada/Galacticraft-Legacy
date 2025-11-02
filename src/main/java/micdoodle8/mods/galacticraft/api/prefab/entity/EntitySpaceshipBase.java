@@ -769,25 +769,5 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
 
     public void setRocketRotation(EnumFacing enumFacing)
     {
-        float yaw;
-
-        switch (enumFacing)
-        {
-            case SOUTH:
-                yaw = 90f;
-                break;
-            case WEST:
-                yaw = 135f;
-                break;
-            case EAST:
-                yaw = -135f;
-                break;
-            case NORTH:
-            default:
-                yaw = 180f;
-                break;
-        }
-
-        this.setRotation(yaw, 0);
     }
 }
