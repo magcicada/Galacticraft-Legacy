@@ -1,11 +1,23 @@
 pluginManagement {
     repositories {
-        mavenLocal()
+        maven {
+            // RetroFuturaGradle
+            name = "GTNH Maven"
+            url = "https://nexus.gtnewhorizons.com/repository/public/"
+            mavenContent {
+                includeGroup "com.gtnewhorizons"
+                includeGroup "com.gtnewhorizons.retrofuturagradle"
+            }
+        }
         gradlePluginPortal()
         mavenCentral()
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://maven.gofancy.wtf/releases' }
-//		maven { url = 'https://maven.galacticraft.net/repository/internal-plugins/' }
-//        maven { url = 'https://maven.galacticraft.net/repository/gradle/' }
+        mavenLocal()
     }
 }
+
+plugins {
+    // Automatic toolchain provisioning
+    id "org.gradle.toolchains.foojay-resolver-convention" version "1.0.0"
+}
+
+rootProject.name = "Galacticraft-Legacy"
