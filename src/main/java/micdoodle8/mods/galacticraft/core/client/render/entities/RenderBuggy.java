@@ -131,6 +131,7 @@ public class RenderBuggy extends Render<EntityBuggy>
         dZ = -dZ;
         GlStateManager.translate(dX, dY, dZ);
         GlStateManager.rotate(-entity.wheelRotationZ, 0, 1, 0);
+        ClientUtil.drawBakedModel(this.wheelRightCover);
         GlStateManager.rotate(rotation, 1, 0, 0);
         ClientUtil.drawBakedModel(this.wheelRight);
         GlStateManager.popMatrix();
@@ -138,6 +139,7 @@ public class RenderBuggy extends Render<EntityBuggy>
         GlStateManager.pushMatrix();
         GlStateManager.translate(-dX, dY, dZ);
         GlStateManager.rotate(-entity.wheelRotationZ, 0, 1, 0);
+        ClientUtil.drawBakedModel(this.wheelLeftCover);
         GlStateManager.rotate(rotation, 1, 0, 0);
         ClientUtil.drawBakedModel(this.wheelLeft);
         GlStateManager.popMatrix();
