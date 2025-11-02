@@ -143,12 +143,4 @@ public class ContainerIngotCompressor extends Container
 
         return var2;
     }
-
-    // Can only split-drag into the crafting table slots
-    @Override
-    public boolean canDragIntoSlot(Slot par1Slot)
-    {
-        return par1Slot.slotNumber < 9;
-    }
-
 }
