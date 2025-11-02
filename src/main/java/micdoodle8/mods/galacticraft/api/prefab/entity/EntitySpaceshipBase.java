@@ -38,6 +38,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -764,5 +765,29 @@ public abstract class EntitySpaceshipBase extends Entity implements IPacketRecei
             height = 255D;
         BlockPos blockpos = new BlockPos(this.posX, height, this.posZ);
         return this.world.isBlockLoaded(blockpos) ? this.world.getCombinedLight(blockpos, 0) : 0;
+    }
+
+    public void setRocketRotation(EnumFacing enumFacing)
+    {
+        float yaw;
+
+        switch (enumFacing)
+        {
+            case SOUTH:
+                yaw = 90f;
+                break;
+            case WEST:
+                yaw = 135f;
+                break;
+            case EAST:
+                yaw = -135f;
+                break;
+            case NORTH:
+            default:
+                yaw = 180f;
+                break;
+        }
+
+        this.setRotation(yaw, 0);
     }
 }

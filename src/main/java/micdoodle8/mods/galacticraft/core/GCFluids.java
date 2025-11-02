@@ -269,7 +269,7 @@ public class GCFluids
                     float centerX = pos.getX() + 0.5F;
                     float centerY = pos.getY() + 0.4F;
                     float centerZ = pos.getZ() + 0.5F;
-                    rocketPlaced = ItemTier1Rocket.placeRocketOnPad(stack, world, world.getTileEntity(pos), centerX, centerY, centerZ);
+                    rocketPlaced = ItemTier1Rocket.placeRocketOnPad(stack, source.getBlockState().getValue(BlockDispenser.FACING), world, world.getTileEntity(pos), centerX, centerY, centerZ);
                 }
 
                 if (rocketPlaced)

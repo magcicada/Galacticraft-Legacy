@@ -110,7 +110,7 @@ public class ItemTier1Rocket extends Item implements IHoldableItem, ISortableIte
 
             if (padFound)
             {
-                if (!placeRocketOnPad(stack, worldIn, tile, centerX, centerY, centerZ))
+                if (!placeRocketOnPad(stack, playerIn.getHorizontalFacing(), worldIn, tile, centerX, centerY, centerZ))
                 {
                     return EnumActionResult.FAIL;
                 }
@@ -127,7 +127,7 @@ public class ItemTier1Rocket extends Item implements IHoldableItem, ISortableIte
         }
     }
 
-    public static boolean placeRocketOnPad(ItemStack stack, World worldIn, TileEntity tile, float centerX, float centerY, float centerZ)
+    public static boolean placeRocketOnPad(ItemStack stack, EnumFacing enumFacing, World worldIn, TileEntity tile, float centerX, float centerY, float centerZ)
     {
         // Check whether there is already a rocket on the pad
         if (tile instanceof TileEntityLandingPad)
@@ -144,6 +144,7 @@ public class ItemTier1Rocket extends Item implements IHoldableItem, ISortableIte
         final EntityTier1Rocket spaceship = new EntityTier1Rocket(worldIn, centerX, centerY, centerZ, EnumRocketType.values()[stack.getItemDamage()]);
 
         spaceship.setPosition(spaceship.posX, spaceship.posY + spaceship.getOnPadYOffset(), spaceship.posZ);
+        spaceship.setRocketRotation(enumFacing);
         worldIn.spawnEntity(spaceship);
 
         if (spaceship.rocketType.getPreFueled())

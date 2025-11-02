@@ -14,7 +14,6 @@ import micdoodle8.mods.galacticraft.api.entity.IRocketType.EnumRocketType;
 import micdoodle8.mods.galacticraft.api.item.GCRarity;
 import micdoodle8.mods.galacticraft.api.item.IHoldableItem;
 import micdoodle8.mods.galacticraft.api.prefab.entity.EntityAutoRocket;
-import micdoodle8.mods.galacticraft.api.prefab.entity.EntityTieredRocket;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.GCFluids;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
@@ -108,7 +107,7 @@ public class ItemTier2Rocket extends Item implements IHoldableItem, ISortableIte
 
             if (padFound)
             {
-                if (!placeRocketOnPad(stack, world, tile, centerX, centerY, centerZ))
+                if (!placeRocketOnPad(stack, player.getHorizontalFacing(), world, tile, centerX, centerY, centerZ))
                 {
                     return EnumActionResult.FAIL;
                 }
@@ -125,7 +124,7 @@ public class ItemTier2Rocket extends Item implements IHoldableItem, ISortableIte
         }
     }
 
-    public static boolean placeRocketOnPad(ItemStack stack, World world, TileEntity tile, float centerX, float centerY, float centerZ)
+    public static boolean placeRocketOnPad(ItemStack stack, EnumFacing enumFacing, World world, TileEntity tile, float centerX, float centerY, float centerZ)
     {
         // Check whether there is already a rocket on the pad
         if (tile instanceof TileEntityLandingPad)
@@ -150,18 +149,14 @@ public class ItemTier2Rocket extends Item implements IHoldableItem, ISortableIte
         }
 
         rocket.setPosition(rocket.posX, rocket.posY + rocket.getOnPadYOffset(), rocket.posZ);
+        rocket.setRocketRotation(enumFacing);
         world.spawnEntity(rocket);
 
         if (((IRocketType) rocket).getType().getPreFueled())
         {
-            if (rocket instanceof EntityTieredRocket)
-            {
-                ((EntityTieredRocket) rocket).fuelTank.fill(new FluidStack(GCFluids.fluidFuel, rocket.getMaxFuel()), true);
-            } else
-            {
-                ((EntityCargoRocket) rocket).fuelTank.fill(new FluidStack(GCFluids.fluidFuel, rocket.getMaxFuel()), true);
-            }
-        } else if (stack.hasTagCompound() && stack.getTagCompound().hasKey("RocketFuel"))
+            rocket.fuelTank.fill(new FluidStack(GCFluids.fluidFuel, rocket.getMaxFuel()), true);
+        }
+        else if (stack.hasTagCompound() && stack.getTagCompound().hasKey("RocketFuel"))
         {
             rocket.fuelTank.fill(new FluidStack(GCFluids.fluidFuel, stack.getTagCompound().getInteger("RocketFuel")), true);
         }

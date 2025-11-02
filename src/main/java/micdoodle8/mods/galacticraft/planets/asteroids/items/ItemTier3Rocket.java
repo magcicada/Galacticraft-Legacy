@@ -105,7 +105,7 @@ public class ItemTier3Rocket extends Item implements IHoldableItem, ISortableIte
 
             if (padFound)
             {
-                if (!placeRocketOnPad(stack, worldIn, tile, centerX, centerY, centerZ))
+                if (!placeRocketOnPad(stack, playerIn.getHorizontalFacing(), worldIn, tile, centerX, centerY, centerZ))
                 {
                     return EnumActionResult.FAIL;
                 }
@@ -195,7 +195,7 @@ public class ItemTier3Rocket extends Item implements IHoldableItem, ISortableIte
         return EnumSortCategoryItem.ROCKET;
     }
 
-    public static boolean placeRocketOnPad(ItemStack stack, World worldIn, TileEntity tile, float centerX, float centerY, float centerZ)
+    public static boolean placeRocketOnPad(ItemStack stack, EnumFacing enumFacing, World worldIn, TileEntity tile, float centerX, float centerY, float centerZ)
     {
         // Check whether there is already a rocket on the pad
         if (tile instanceof TileEntityLandingPad)
@@ -213,6 +213,7 @@ public class ItemTier3Rocket extends Item implements IHoldableItem, ISortableIte
 
         rocket.rotationYaw += 45;
         rocket.setPosition(rocket.posX, rocket.posY + rocket.getOnPadYOffset(), rocket.posZ);
+        rocket.setRocketRotation(enumFacing);
         worldIn.spawnEntity(rocket);
 
         if (rocket.getType().getPreFueled())
