@@ -111,6 +111,19 @@ public class BlockLaserTurret extends BlockTileGC implements ITileEntityProvider
     }
 
     @Override
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
+    {
+        int buildHeight = worldIn.getHeight() - 1;
+        int y = pos.getY() + 1;
+
+        if (y > buildHeight)
+        {
+            return false;
+        }
+        return super.canPlaceBlockAt(worldIn, pos) && worldIn.isAirBlock(pos.up());
+    }
+
+    @Override
     public String getShiftDescription(int meta)
     {
         return GCCoreUtil.translate(this.getTranslationKey() + ".description");

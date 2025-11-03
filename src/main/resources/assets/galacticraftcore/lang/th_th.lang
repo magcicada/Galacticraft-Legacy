@@ -420,7 +420,6 @@ gui.title.air_lock.name=เครื่องควบคุมแอร์ล�
 gui.tracking.message=การติดตามทำงานแล้ว คลิกขวาที่เทเลเมตรี เพื่อเชื่อมต่อลิงค์
 gui.village.warning.no_freq_mod=ฉันต้องใส่โมดูลวัดความถี่เพื่อสื่อสารกับเขา!
 gui.warning.invalid_thermal=ไม่มีเกราะกันความร้อน!
-gui.warning.noroom=พื้นที่ไม่พอ!
 gui.warning=คำเตือน!
 item.air_fan.name=ใบพัดออกซิเจน
 item.air_vent.name=ช่องระบายออกซิเจน

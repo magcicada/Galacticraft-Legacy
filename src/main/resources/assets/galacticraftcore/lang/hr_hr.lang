@@ -386,7 +386,6 @@ gui.title.air_lock.name=%s's Zračna Komora
 gui.tracking.message=Praćenje aktivirano. Sada ću morati kliknuti na ovu telemetrijsku jedinici da završim vezu.
 gui.warning=OPASNOST!
 gui.warning.invalid_thermal=Nepoznata Termalna Zaštita!
-gui.warning.noroom=Nema dovoljno prostora!
 item.air_fan.name=Ventilator za kisik
 item.air_vent.name=Otvor za kisik
 item.basic_item.ambient_thermal_controller.name=Ambient Termalni Kontroler

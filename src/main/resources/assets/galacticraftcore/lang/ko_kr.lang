@@ -422,7 +422,6 @@ gui.title.air_lock.name=%s's 에어락 제어기
 gui.tracking.message=추적 활성화 완료. 링크를 활성하기 위해 원격측정 유닛을 우클릭해야 합니다.
 gui.village.warning.no_freq_mod=그들과 통신할 수 있도록 주파수 모듈을 갖추어야 할 것 같아요!
 gui.warning.invalid_thermal=열보호 장비가 유효하지 않습니다!
-gui.warning.noroom=공간이 부족합니다!
 gui.warning=위험!
 item.air_fan.name=날개
 item.air_vent.name=통풍구

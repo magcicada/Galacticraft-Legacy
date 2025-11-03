@@ -422,7 +422,6 @@ gui.title.air_lock.name=%s's Air Lock Controller
 gui.tracking.message=Tracking activated. Now I'll need to right-click this on a Telemetry Unit to complete the link.
 gui.village.warning.no_freq_mod=I'll need to equip a Frequency Module to communicate with them!
 gui.warning.invalid_thermal=Invalid Thermal Protection!
-gui.warning.noroom=Not enough room!
 gui.warning=WARNING!
 item.air_fan.name=Oxygen Fan
 item.air_vent.name=Oxygen Vent

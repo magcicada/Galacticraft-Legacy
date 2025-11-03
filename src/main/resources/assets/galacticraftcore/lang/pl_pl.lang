@@ -422,7 +422,6 @@ gui.title.air_lock.name=Śluza powietrzna gracza %s
 gui.tracking.message=Śledzenie aktywne. Teraz muszę kliknąć prawym przyciskiem myszy na urządzeniu telemetrycznym żeby zakończyć połączenie.
 gui.village.warning.no_freq_mod=Będe musiał założyć moduł częstotliwości aby się z nimi komunikować!
 gui.warning.invalid_thermal=Niewłaściwa ochrona termalna!
-gui.warning.noroom=Za mało miejsca!
 gui.warning=OSTRZEŻENIE!
 item.air_fan.name=Wentylator
 item.air_vent.name=Odpowietrznik

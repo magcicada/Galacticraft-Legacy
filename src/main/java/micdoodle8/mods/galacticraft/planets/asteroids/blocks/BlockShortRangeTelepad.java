@@ -14,7 +14,6 @@ import micdoodle8.mods.galacticraft.core.blocks.BlockTileGC;
 import micdoodle8.mods.galacticraft.core.blocks.ISortableBlock;
 import micdoodle8.mods.galacticraft.core.items.IShiftDescription;
 import micdoodle8.mods.galacticraft.core.tile.IMultiBlock;
-import micdoodle8.mods.galacticraft.core.util.EnumColor;
 import micdoodle8.mods.galacticraft.core.util.EnumSortCategoryBlock;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
@@ -28,7 +27,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -36,7 +34,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -99,18 +96,19 @@ public class BlockShortRangeTelepad extends BlockTileGC implements IShiftDescrip
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+    public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side)
     {
-        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-
-        TileEntity tile = worldIn.getTileEntity(pos);
-
-        boolean validSpot = true;
-
         for (int x = -1; x <= 1; x++)
         {
             for (int y = 0; y < 3; y += 2)
             {
+                int buildHeight = worldIn.getHeight() - 1;
+
+                if (pos.getY() + y > buildHeight)
+                {
+                    return false;
+                }
+
                 for (int z = -1; z <= 1; z++)
                 {
                     if (!(x == 0 && y == 0 && z == 0))
@@ -119,33 +117,25 @@ public class BlockShortRangeTelepad extends BlockTileGC implements IShiftDescrip
 
                         if (!stateAt.getMaterial().isReplaceable())
                         {
-                            validSpot = false;
+                            return false;
                         }
                     }
                 }
             }
         }
+        return true;
+    }
 
-        if (!validSpot)
-        {
-            worldIn.setBlockToAir(pos);
-
-            if (placer instanceof EntityPlayer)
-            {
-                if (!worldIn.isRemote)
-                {
-                    ((EntityPlayer) placer).sendMessage(new TextComponentString(EnumColor.RED + GCCoreUtil.translate("gui.warning.noroom")));
-                }
-                ((EntityPlayer) placer).inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(this), 1, 0));
-            }
-
-            return;
-        }
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+    {
+        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+        TileEntity tile = worldIn.getTileEntity(pos);
 
         if (tile instanceof TileEntityShortRangeTelepad)
         {
             ((TileEntityShortRangeTelepad) tile).onCreate(worldIn, pos);
-            ((TileEntityShortRangeTelepad) tile).setOwner(PlayerUtil.getName(((EntityPlayer) placer)));
+            ((TileEntityShortRangeTelepad) tile).setOwner(PlayerUtil.getName((EntityPlayer) placer));
         }
     }
 

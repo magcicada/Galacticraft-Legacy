@@ -386,7 +386,6 @@ gui.title.air_lock.name=Controlo da Porta de %s
 gui.tracking.message=Rastreio ativado. Agora tenho que clicar com o botão direito do rato numa Unidade de Telemetria para completar a ligação.
 gui.warning=ATENÇÃO!
 gui.warning.invalid_thermal=Proteção Térmica Inválida
-gui.warning.noroom=Pouco espaço!
 item.air_fan.name=Ventilador
 item.air_vent.name=Respirador
 item.basic_item.ambient_thermal_controller.name=Controlador Térmico de Ambiente

@@ -386,7 +386,6 @@ gui.title.air_lock.name=Controller della chiusura ad aria di %s
 gui.tracking.message=Tracking activated. Now I'll need to right-click this on a Telemetry Unit to complete the link.
 gui.warning=ATTENZIONE!
 gui.warning.invalid_thermal=Protezione alle alte temperature invalida!
-gui.warning.noroom=Non c'è abbastanza spazio
 item.air_fan.name=Ventola per ossigeno
 item.air_vent.name=Grata per ossigeno
 item.basic_item.ambient_thermal_controller.name=Controllore di temperatura ambientale

@@ -390,7 +390,6 @@ gui.title.air_lock.name=Controle da Porta de %s
 gui.tracking.message=Rastreamento ativado. Agora tenho que clicar com o botão direito do mouse numa Unidade de Telemetria para completar a ligação.
 gui.village.warning.no_freq_mod=Vou precisar de usar o Módulo de Frequência para me comunicar com eles! 
 gui.warning.invalid_thermal=Proteção térmica inválida
-gui.warning.noroom=Pouco espaço!
 gui.warning=ATENÇÃO!
 item.air_fan.name=Ventilador
 item.air_vent.name=Respirador

@@ -386,7 +386,6 @@ gui.title.air_lock.name=%s Controlador de la esclusa de aire
 gui.tracking.message=Seguimiento activado. Ahora necesirarás hacer click derecho sobre esto en una unidad de telemetría para completar el enlace.
 gui.warning=¡ALERTA!
 gui.warning.invalid_thermal=Protección térmica inválida
-gui.warning.noroom=Espacio insuficiente
 item.air_fan.name=Ventilador
 item.air_vent.name=Respiradero
 item.basic_item.ambient_thermal_controller.name=Controlador térmico ambiental

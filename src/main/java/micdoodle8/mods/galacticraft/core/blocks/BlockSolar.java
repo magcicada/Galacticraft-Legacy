@@ -109,6 +109,13 @@ public class BlockSolar extends BlockTileGC implements IShiftDescription, IParti
     {
         for (int y = 1; y <= 2; y++)
         {
+            int buildHeight = worldIn.getHeight() - 1;
+
+            if (pos.getY() + y > buildHeight)
+            {
+                return false;
+            }
+
             for (int x = -1; x <= 1; x++)
             {
                 for (int z = -1; z <= 1; z++)
@@ -137,10 +144,7 @@ public class BlockSolar extends BlockTileGC implements IShiftDescription, IParti
                 }
             }
         }
-
         return true;
-        // return new BlockVec3(x1, y1, z1).newVecSide(side ^ 1).getBlock(world)
-        // != GCBlocks.fakeBlock; TODO
     }
 
     @Override

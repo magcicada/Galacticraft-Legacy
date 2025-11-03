@@ -422,7 +422,6 @@ gui.title.air_lock.name=Контролер повітряного шлюзу г�
 gui.tracking.message=Відстеження активовано. Тепер мені потрібно натиснути ПКМ по телеметричному блоку, щоб завершити з'єднання.
 gui.village.warning.no_freq_mod=Мені потрібен частотний модуль, щоб спілкуватися з ними!
 gui.warning.invalid_thermal=Неправильна тепловий захист!
-gui.warning.noroom=Недостатньо місця!
 gui.warning=НЕБЕЗПЕКА!
 item.air_fan.name=Вентилятор
 item.air_vent.name=Вентиляційний клапан

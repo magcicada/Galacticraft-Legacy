@@ -106,7 +106,6 @@ import micdoodle8.mods.galacticraft.core.items.ItemBlockGlassGC;
 import micdoodle8.mods.galacticraft.core.items.ItemBlockLandingPad;
 import micdoodle8.mods.galacticraft.core.items.ItemBlockMachine;
 import micdoodle8.mods.galacticraft.core.items.ItemBlockMoon;
-import micdoodle8.mods.galacticraft.core.items.ItemBlockNasaWorkbench;
 import micdoodle8.mods.galacticraft.core.items.ItemBlockOxygenCompressor;
 import micdoodle8.mods.galacticraft.core.items.ItemBlockPanel;
 import micdoodle8.mods.galacticraft.core.items.ItemBlockSlabGC;
@@ -609,7 +608,7 @@ public class GCBlocks
         registerBlock(GCBlocks.refinery, ItemBlockDesc.class);
         registerBlock(GCBlocks.fuelLoader, ItemBlockDesc.class);
         registerBlock(GCBlocks.cargoLoader, ItemBlockCargoLoader.class);
-        registerBlock(GCBlocks.nasaWorkbench, ItemBlockNasaWorkbench.class);
+        registerBlock(GCBlocks.nasaWorkbench, ItemBlockDesc.class);
         registerBlock(GCBlocks.compactNasaWorkbench, ItemBlockDesc.class);
         registerBlock(GCBlocks.basicBlock, ItemBlockBase.class);
         registerBlock(GCBlocks.airLockFrame, ItemBlockAirLock.class);

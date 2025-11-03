@@ -386,7 +386,6 @@ gui.title.air_lock.name=%s's Air Lock Controller ##NEEDS TRANSLATE##
 gui.tracking.message=Tracking activated. Now I'll need to right-click this on a Telemetry Unit to complete the link. ##NEEDS TRANSLATE##
 gui.warning=VAROITUS!
 gui.warning.invalid_thermal=Invalid Thermal Protection! ##NEEDS TRANSLATE##
-gui.warning.noroom=Not enough room! ##NEEDS TRANSLATE##
 item.air_fan.name=Happipuhallin
 item.air_vent.name=Ilma-aukko
 item.basic_item.ambient_thermal_controller.name=Ambient Thermal Controller ##NEEDS TRANSLATE##

@@ -68,13 +68,50 @@ public class BlockNasaWorkbench extends BlockContainer implements ITileEntityPro
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
     {
-        return new AxisAlignedBB((double) pos.getX() + -0.0F, (double) pos.getY() + 0.0F, (double) pos.getZ() + -0.0F, (double) pos.getX() + 1.0F, (double) pos.getY() + 1.4F,
-            (double) pos.getZ() + 1.0F);
+        return new AxisAlignedBB((double) pos.getX() + 0.0F, (double) pos.getY() + 0.0F, (double) pos.getZ() + 0.0F, (double) pos.getX() + 1.0F, (double) pos.getY() + 1.4F, (double) pos.getZ() + 1.0F);
     }
 
     @Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
+        for (int x = -1; x < 2; x++)
+        {
+            for (int y = 0; y < 4; y++)
+            {
+                int buildHeight = worldIn.getHeight() - 1;
+
+                if (pos.getY() + y > buildHeight)
+                {
+                    return false;
+                }
+
+                for (int z = -1; z < 2; z++)
+                {
+                    if (!(x == 0 && y == 0 && z == 0))
+                    {
+                        if (Math.abs(x) != 1 || Math.abs(z) != 1)
+                        {
+                            IBlockState stateAt = worldIn.getBlockState(new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z));
+
+                            if ((y == 0 || y == 3) && x == 0 && z == 0)
+                            {
+                                if (!stateAt.getMaterial().isReplaceable())
+                                {
+                                    return false;
+                                }
+                            }
+                            else if (y != 0 && y != 3)
+                            {
+                                if (!stateAt.getMaterial().isReplaceable())
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return true;
     }
 

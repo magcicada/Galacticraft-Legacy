@@ -422,7 +422,6 @@ gui.title.air_lock.name=%s的气闸控制器
 gui.tracking.message=追踪已激活.现需右击一个遥感装置来完成连接。
 gui.village.warning.no_freq_mod=我需要配备一个频率模块来和他们交流！
 gui.warning.invalid_thermal=热保护无效！
-gui.warning.noroom=空间不足！
 gui.warning=警报！
 item.air_fan.name=换气扇
 item.air_vent.name=通气孔

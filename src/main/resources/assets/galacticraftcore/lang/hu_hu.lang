@@ -386,7 +386,6 @@ gui.title.air_lock.name=%s Légzsilip-Kezelőpultja.
 gui.tracking.message=Tracking activated. Now I'll need to right-click this on a Telemetry Unit to complete the link. ##NEEDS TRANSLATE##
 gui.warning=VIGYÁZAT!
 gui.warning.invalid_thermal=Invalid Thermal Protection! ##NEEDS TRANSLATE##
-gui.warning.noroom=Nincs elég hely.
 item.air_fan.name=Légkeringető Propeller
 item.air_vent.name=Légbeömlő Nyílás
 item.basic_item.ambient_thermal_controller.name=Ambient Thermal Controller ##NEEDS TRANSLATE##

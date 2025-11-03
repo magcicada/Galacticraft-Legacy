@@ -12,7 +12,6 @@ import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.items.ItemBlockDesc;
 import micdoodle8.mods.galacticraft.core.items.ItemBlockGC;
 import micdoodle8.mods.galacticraft.planets.asteroids.items.ItemBlockAsteroids;
-import micdoodle8.mods.galacticraft.planets.asteroids.items.ItemBlockShortRangeTelepad;
 import micdoodle8.mods.galacticraft.planets.asteroids.items.ItemBlockWalkway;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
@@ -59,7 +58,7 @@ public class AsteroidBlocks
         registerBlock(AsteroidBlocks.blockWalkway, ItemBlockWalkway.class);
         registerBlock(AsteroidBlocks.beamReflector, ItemBlockDesc.class);
         registerBlock(AsteroidBlocks.beamReceiver, ItemBlockDesc.class);
-        registerBlock(AsteroidBlocks.shortRangeTelepad, ItemBlockShortRangeTelepad.class);
+        registerBlock(AsteroidBlocks.shortRangeTelepad, ItemBlockDesc.class);
         registerBlock(AsteroidBlocks.fakeTelepad, null);
         registerBlock(AsteroidBlocks.blockDenseIce, ItemBlockGC.class);
         registerBlock(AsteroidBlocks.blockMinerBase, ItemBlockDesc.class);

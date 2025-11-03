@@ -47,23 +47,22 @@ public class ItemBlockMachine extends ItemBlockDesc implements GCRarity
         int metaAt = itemStack.getItemDamage();
 
         // If it is a Cryogenic Chamber, check the space
-        if (metaAt == BlockMachineMars.CRYOGENIC_CHAMBER_METADATA)
+        if (this.getBlock() == MarsBlocks.machine && metaAt == BlockMachineMars.CRYOGENIC_CHAMBER_METADATA)
         {
-            for (int y = 0; y < 3; y++)
+            for (int y = 1; y < 3; y++)
             {
+                int buildHeight = world.getHeight() - 1;
+
+                if (pos.getY() + y > buildHeight)
+                {
+                    return false;
+                }
+
                 IBlockState stateAt = world.getBlockState(pos.add(0, y, 0));
 
-                if (this.getBlock() == MarsBlocks.machine)
+                if (!stateAt.getMaterial().isReplaceable())
                 {
-                    if (!stateAt.getMaterial().isReplaceable())
-                    {
-                        if (world.isRemote)
-                        {
-                            FMLClientHandler.instance().getClient().ingameGUI
-                                .setOverlayMessage(new TextComponentString(GCCoreUtil.translate("gui.warning.noroom")).setStyle(new Style().setColor(TextFormatting.RED)).getFormattedText(), false);
-                        }
-                        return false;
-                    }
+                    return false;
                 }
             }
         }

@@ -419,7 +419,6 @@ gui.title.air_lock.name=Luftschleusen-Controller von %s
 gui.tracking.message=Verfolgung aktiviert. Um die Verbindung zu vervollständigen, muss ich hiermit einen Rechtsklick auf einen Telemetrieempfänger durchführen.
 gui.village.warning.no_freq_mod=Ich brauche wohl ein Frequenzmodul, um mit ihnen zu kommunizieren.
 gui.warning.invalid_thermal=Unzureichendes Wärmeschutzschild!
-gui.warning.noroom=Nicht genug Platz!
 gui.warning=WARNUNG!
 item.air_fan.name=Ventilator
 item.air_vent.name=Lüftungsventil

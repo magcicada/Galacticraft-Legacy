@@ -491,7 +491,6 @@ public class BlockMulti extends BlockAdvanced implements IPartialSealableBlock, 
                 if (!worldIn.isRemote && placer instanceof EntityPlayerMP)
                 {
                     EntityPlayerMP player = (EntityPlayerMP) placer;
-                    player.sendMessage(new TextComponentString(EnumColor.RED + GCCoreUtil.translate("gui.warning.noroom")));
                     if (!player.capabilities.isCreativeMode)
                     {
                         final ItemStack nasaWorkbench = new ItemStack(callingBlock, 1, 0);

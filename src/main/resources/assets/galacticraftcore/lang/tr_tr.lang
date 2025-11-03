@@ -386,7 +386,6 @@ gui.title.air_lock.name=%s Adlı Kişinin Hava Kilidi
 gui.tracking.message=Bağlantı başladı. Şimdi, bağlantıyı tamamlamak için Telemetri Ünitesine sağ tıklamam lazım.
 gui.warning=UYARI!
 gui.warning.invalid_thermal=Termal korumanız geçersizdir!
-gui.warning.noroom=Oda Yetersiz!
 item.air_fan.name=Oksijen Fan
 item.air_vent.name=Oksijen Havalandırması
 item.basic_item.ambient_thermal_controller.name=Çevre Sıcaklık Kontrolü

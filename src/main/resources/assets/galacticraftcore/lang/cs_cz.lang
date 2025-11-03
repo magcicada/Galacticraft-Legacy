@@ -386,7 +386,6 @@ gui.title.air_lock.name=%sův kontroler přechodové komory
 gui.tracking.message=Navazuji spojení. Klikněte pravým tlačítkem na jednotku telemetrie pro navázání spojení.
 gui.warning=Varování!
 gui.warning.invalid_thermal=Nefunkční tepelná ochrana!
-gui.warning.noroom=Nedostatek místa!
 item.air_fan.name=Kyslíkový ventilátor
 item.air_vent.name=Kyslíkový výdech
 item.basic_item.ambient_thermal_controller.name=Teplotní regulátor

@@ -386,7 +386,6 @@ gui.title.air_lock.name=%s's Luchtsluis Controleur
 gui.tracking.message=Opsporing Geactiveerd. Nu moet ik Met de Rechter-muisknop op de telemetrie eenheid klikken om de link te Creëren.
 gui.warning=WAARSCHUWING!
 gui.warning.invalid_thermal=Onvoeldoende Thermische Bescherming!
-gui.warning.noroom=Niet genoeg Ruimte!
 item.air_fan.name=Ventilator
 item.air_vent.name=Ontluchter
 item.basic_item.ambient_thermal_controller.name=Omgevings temperatuur controle apparaat

@@ -386,7 +386,6 @@ gui.title.air_lock.name=%s's Controlleur du sas
 gui.tracking.message=Dépistage activé. Maintenant, je devrai faire un clic droit de ceci sur une unité de télémétrie pour compléter le lien.
 gui.warning=ALERTE!
 gui.warning.invalid_thermal=Protection thermique invalides !
-gui.warning.noroom=Pas assez de place!
 item.air_fan.name=Ventilateur
 item.air_vent.name=Conduit d'air
 item.basic_item.ambient_thermal_controller.name=Ambient Thermal Controller ##NEEDS TRANSLATE##

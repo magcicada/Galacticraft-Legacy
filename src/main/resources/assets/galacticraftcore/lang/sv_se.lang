@@ -386,7 +386,6 @@ gui.title.air_lock.name=%s's luftslusskontroll
 gui.tracking.message=Spårning aktiverad. Högerklicka på fjärrmätaren för att fullborda förbindning.
 gui.warning=FARA!
 gui.warning.invalid_thermal=Undermåligt temperaturskydd!
-gui.warning.noroom=Slut på utrymme!
 item.air_fan.name=Fläkt
 item.air_vent.name=Luftintag
 item.basic_item.ambient_thermal_controller.name=Ambient Thermal Controller ##NEEDS TRANSLATE##
