@@ -119,9 +119,9 @@ public class TileEntityElectrolyzer extends TileBaseElectricBlockWithInventory i
         if (!this.world.isRemote)
         {
             final FluidStack liquid = FluidUtil.getFluidContained(this.getInventory().get(1));
-            if (FluidUtil.isFluidStrict(liquid, FluidRegistry.WATER.getName()))
+            if (FluidUtil.isFluidStrict(liquid, FluidRegistry.WATER.getName()) && this.waterTank.getFluidAmount() + liquid.amount - 1 < this.waterTank.getCapacity())
             {
-                FluidUtil.loadFromContainer(waterTank, FluidRegistry.WATER, this.getInventory(), 1, liquid.amount);
+                FluidUtil.loadFromContainer(this.waterTank, FluidRegistry.WATER, this.getInventory(), 1, liquid.amount);
             }
 
             // Only drain with atmospheric valve

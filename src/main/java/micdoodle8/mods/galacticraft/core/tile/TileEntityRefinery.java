@@ -68,7 +68,7 @@ public class TileEntityRefinery extends TileBaseElectricBlockWithInventory imple
         if (!this.world.isRemote)
         {
             final FluidStack liquid = FluidUtil.getFluidContained(this.getInventory().get(1));
-            if (FluidUtil.isOil(liquid))
+            if (FluidUtil.isOil(liquid) && this.oilTank.getFluidAmount() + liquid.amount - 1 < this.oilTank.getCapacity())
             {
                 FluidUtil.loadFromContainer(this.oilTank, GCFluids.fluidOil, this.getInventory(), 1, liquid.amount);
             }
