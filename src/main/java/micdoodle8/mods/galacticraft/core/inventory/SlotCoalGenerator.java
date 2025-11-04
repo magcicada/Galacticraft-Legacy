@@ -4,6 +4,7 @@
  * Licensed under the MIT license.
  * See LICENSE file in the project root for details.
  */
+
 package micdoodle8.mods.galacticraft.core.inventory;
 
 import net.minecraft.init.Blocks;
