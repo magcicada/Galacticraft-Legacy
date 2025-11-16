@@ -47,7 +47,7 @@ public abstract class EntityTieredRocket extends EntityAutoRocket implements IRo
     public EnumRocketType rocketType;
     public float rumble;
     public int launchCooldown;
-    private ArrayList<BlockVec3> preGenList = new ArrayList<>();
+    private final ArrayList<BlockVec3> preGenList = new ArrayList<>();
     private Iterator<BlockVec3> preGenIterator = null;
     static boolean preGenInProgress = false;
     static Field marsConfigAllDimsAllowed;
@@ -118,7 +118,7 @@ public abstract class EntityTieredRocket extends EntityAutoRocket implements IRo
                 }
             }
 
-            if (toPreGen.size() > 0)
+            if (!toPreGen.isEmpty())
             {
                 for (Integer dimID : toPreGen)
                 {
@@ -201,9 +201,10 @@ public abstract class EntityTieredRocket extends EntityAutoRocket implements IRo
                     MinecraftServer mcserver;
                     if (this.world instanceof WorldServer)
                     {
-                        mcserver = ((WorldServer) this.world).getMinecraftServer();
+                        mcserver = this.world.getMinecraftServer();
                         BlockVec3 coords = this.preGenIterator.next();
                         World w = mcserver.getWorld(coords.y);
+                        //noinspection ConstantValue
                         if (w != null)
                         {
                             w.getChunk(coords.x, coords.z);
@@ -316,10 +317,7 @@ public abstract class EntityTieredRocket extends EntityAutoRocket implements IRo
 
                         if (targetDim instanceof IGalacticraftWorldProvider)
                         {
-                            if (((IGalacticraftWorldProvider) targetDim).canSpaceshipTierPass(this.getRocketTier()))
-                                dimensionAllowed = true;
-                            else
-                                dimensionAllowed = false;
+                            dimensionAllowed = ((IGalacticraftWorldProvider) targetDim).canSpaceshipTierPass(this.getRocketTier());
                         } else
                         // No rocket flight to non-Galacticraft dimensions other
                         // than the Overworld allowed unless config
@@ -484,9 +482,17 @@ public abstract class EntityTieredRocket extends EntityAutoRocket implements IRo
                 this.removePassengers();
                 this.height = heightBefore;
             }
-
             return true;
-        } else if (player instanceof EntityPlayerMP)
+        }
+        else if (player.isSneaking())
+        {
+            if (this.world.isRemote)
+            {
+                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(EnumSimplePacket.S_SNEAK_OPEN_FUEL_GUI, this.world.provider.getDimension(), new Object[] { this.getEntityId() }));
+                return true;
+            }
+        }
+        else if (player instanceof EntityPlayerMP && !player.isSneaking())
         {
             if (!this.world.isRemote)
             {
@@ -506,7 +512,7 @@ public abstract class EntityTieredRocket extends EntityAutoRocket implements IRo
     @Override
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
-        if (world.isRemote)
+        if (this.world.isRemote)
             return;
         nbt.setInteger("Type", this.rocketType.getIndex());
         super.writeEntityToNBT(nbt);

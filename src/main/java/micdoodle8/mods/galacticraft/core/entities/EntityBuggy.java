@@ -22,6 +22,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
@@ -609,29 +610,47 @@ public class EntityBuggy extends Entity implements IInventory, IPacketReceiver, 
     @Override
     public boolean processInitialInteract(EntityPlayer player, EnumHand hand)
     {
-        if (this.world.isRemote)
+        if (hand != EnumHand.MAIN_HAND)
         {
-            if (this.getPassengers().isEmpty())
+            return false;
+        }
+
+        if (player.isSneaking())
+        {
+            if (this.world.isRemote)
             {
-                player.sendMessage(new TextComponentString(GameSettings.getKeyDisplayString(KeyHandlerClient.leftKey.getKeyCode()) + " / "
-                    + GameSettings.getKeyDisplayString(KeyHandlerClient.rightKey.getKeyCode()) + "  - " + GCCoreUtil.translate("gui.buggy.turn.name")));
+                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_SNEAK_OPEN_FUEL_GUI, this.world.provider.getDimension(), new Object[] { this.getEntityId() }));
+                return true;
+            }
+        }
+        else if (player instanceof EntityPlayerMP && !player.isSneaking())
+        {
+            if (!this.world.isRemote)
+            {
+                player.startRiding(this);
+            }
+            return true;
+        }
+        else if (!this.getPassengers().isEmpty() && this.getPassengers().contains(player))
+        {
+            if (!this.world.isRemote)
+            {
+                this.removePassenger(player);
+            }
+            return true;
+        }
+
+        if (this.getPassengers().isEmpty())
+        {
+            if (this.world.isRemote)
+            {
+                player.sendMessage(new TextComponentString(GameSettings.getKeyDisplayString(KeyHandlerClient.leftKey.getKeyCode()) + " / " + GameSettings.getKeyDisplayString(KeyHandlerClient.rightKey.getKeyCode()) + "  - " + GCCoreUtil.translate("gui.buggy.turn.name")));
                 player.sendMessage(new TextComponentString(GameSettings.getKeyDisplayString(KeyHandlerClient.accelerateKey.getKeyCode()) + "       - " + GCCoreUtil.translate("gui.buggy.accel.name")));
                 player.sendMessage(new TextComponentString(GameSettings.getKeyDisplayString(KeyHandlerClient.decelerateKey.getKeyCode()) + "       - " + GCCoreUtil.translate("gui.buggy.decel.name")));
                 player.sendMessage(new TextComponentString(GameSettings.getKeyDisplayString(KeyHandlerClient.openFuelGui.getKeyCode()) + "       - " + GCCoreUtil.translate("gui.buggy.inv.name")));
             }
         }
-        else
-        {
-            if (this.getPassengers().contains(player))
-            {
-                this.removePassenger(player);
-            }
-            else
-            {
-                player.startRiding(this);
-            }
-        }
-        return true;
+        return false;
     }
 
     @Override

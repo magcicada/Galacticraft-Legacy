@@ -40,11 +40,14 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 import micdoodle8.mods.galacticraft.annotations.ForRemoval;
+import micdoodle8.mods.galacticraft.api.prefab.entity.EntityTieredRocket;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.entities.EntityBuggy;
 import micdoodle8.mods.galacticraft.core.entities.EntityLanderBase;
 import micdoodle8.mods.galacticraft.core.inventory.ContainerBuggy;
 import micdoodle8.mods.galacticraft.core.inventory.ContainerParaChest;
+import micdoodle8.mods.galacticraft.core.inventory.ContainerRocketInventory;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple;
 import micdoodle8.mods.galacticraft.core.network.PacketSimple.EnumSimplePacket;
 
@@ -80,13 +83,13 @@ public class GCCoreUtil
         return deobfuscated;
     }
 
-    public static void openBuggyInv(EntityPlayerMP player, IInventory buggyInv, int type)
+    public static void openBuggyInv(EntityPlayerMP player, EntityBuggy buggy, int type)
     {
         player.getNextWindowId();
         player.closeContainer();
         int id = player.currentWindowId;
-        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_OPEN_PARACHEST_GUI, GCCoreUtil.getDimensionID(player.world), new Object[] {id, 0, 0}), player);
-        player.openContainer = new ContainerBuggy(player.inventory, buggyInv, type, player);
+        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_OPEN_PARACHEST_GUI, GCCoreUtil.getDimensionID(player.world), new Object[] {id, 0, buggy.getEntityId()}), player);
+        player.openContainer = new ContainerBuggy(player.inventory, buggy, type, player);
         player.openContainer.windowId = id;
         player.openContainer.addListener(player);
     }
@@ -98,6 +101,17 @@ public class GCCoreUtil
         int windowId = player.currentWindowId;
         GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_OPEN_PARACHEST_GUI, GCCoreUtil.getDimensionID(player.world), new Object[] {windowId, 1, landerInv.getEntityId()}), player);
         player.openContainer = new ContainerParaChest(player.inventory, landerInv, player);
+        player.openContainer.windowId = windowId;
+        player.openContainer.addListener(player);
+    }
+
+    public static void openRocketInventory(EntityPlayerMP player, EntityTieredRocket autoRocket)
+    {
+        player.getNextWindowId();
+        player.closeContainer();
+        int windowId = player.currentWindowId;
+        GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_OPEN_PARACHEST_GUI, GCCoreUtil.getDimensionID(player.world), new Object[] {windowId, 2, autoRocket.getEntityId()}), player);
+        player.openContainer = new ContainerRocketInventory(player.inventory, autoRocket, autoRocket.getType(), player);
         player.openContainer.windowId = windowId;
         player.openContainer.addListener(player);
     }

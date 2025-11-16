@@ -78,6 +78,7 @@ import micdoodle8.mods.galacticraft.core.client.fx.ParticleSparks;
 import micdoodle8.mods.galacticraft.core.client.gui.GuiIdsCore;
 import micdoodle8.mods.galacticraft.core.client.gui.container.GuiBuggy;
 import micdoodle8.mods.galacticraft.core.client.gui.container.GuiParaChest;
+import micdoodle8.mods.galacticraft.core.client.gui.container.GuiRocketInventory;
 import micdoodle8.mods.galacticraft.core.client.gui.screen.GuiCelestialSelection;
 import micdoodle8.mods.galacticraft.core.client.sounds.GCSounds;
 import micdoodle8.mods.galacticraft.core.command.CommandGCEnergyUnits;
@@ -138,6 +139,7 @@ public class PacketSimple extends PacketBase implements Packet<INetHandler>
         S_IGNITE_ROCKET(Side.SERVER),
         S_OPEN_SCHEMATIC_PAGE(Side.SERVER, Integer.class, Integer.class, Integer.class, Integer.class),
         S_OPEN_FUEL_GUI(Side.SERVER, String.class),
+        S_SNEAK_OPEN_FUEL_GUI(Side.SERVER, Integer.class),
         S_UPDATE_SHIP_YAW(Side.SERVER, Float.class),
         S_UPDATE_SHIP_PITCH(Side.SERVER, Float.class),
         S_SET_ENTITY_FIRE(Side.SERVER, Integer.class),
@@ -620,30 +622,32 @@ public class PacketSimple extends PacketBase implements Packet<INetHandler>
                 stats.setOxygenSetupValid((Boolean) this.data.get(0));
                 break;
             case C_OPEN_PARACHEST_GUI:
+                int entityID = (Integer) this.data.get(2);
+                Entity entity = player.world.getEntityByID(entityID);
+
                 switch ((Integer) this.data.get(1))
                 {
                     case 0:
-                        if (player.getRidingEntity() instanceof EntityBuggy)
+                        if (entity instanceof EntityBuggy)
                         {
-                            FMLClientHandler.instance().getClient()
-                                .displayGuiScreen(new GuiBuggy(player.inventory, (EntityBuggy) player.getRidingEntity(), ((EntityBuggy) player.getRidingEntity()).getType()));
-                            player.openContainer.windowId = (Integer) this.data.get(0);
+                            FMLClientHandler.instance().getClient().displayGuiScreen(new GuiBuggy(player.inventory, (EntityBuggy) entity, ((EntityBuggy) entity).getType()));
                         }
                         break;
                     case 1:
-                        int entityID = (Integer) this.data.get(2);
-                        Entity entity = player.world.getEntityByID(entityID);
-
-                        if (entity != null && entity instanceof IInventorySettable)
+                        if (entity instanceof IInventorySettable)
                         {
                             FMLClientHandler.instance().getClient().displayGuiScreen(new GuiParaChest(player.inventory, (IInventorySettable) entity));
                         }
-
-                        player.openContainer.windowId = (Integer) this.data.get(0);
+                        break;
+                    case 2:
+                        if (entity instanceof EntityTieredRocket)
+                        {
+                            FMLClientHandler.instance().getClient().displayGuiScreen(new GuiRocketInventory(player.inventory, (EntityTieredRocket) entity, ((EntityTieredRocket) entity).getType()));
+                        }
                         break;
                 }
-                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_REQUEST_CONTAINER_SLOT_REFRESH, GCCoreUtil.getDimensionID(player.world), new Object[]
-                {player.openContainer.windowId}));
+                player.openContainer.windowId = (Integer) this.data.get(0);
+                GalacticraftCore.packetPipeline.sendToServer(new PacketSimple(PacketSimple.EnumSimplePacket.S_REQUEST_CONTAINER_SLOT_REFRESH, GCCoreUtil.getDimensionID(player.world), new Object[] { player.openContainer.windowId }));
                 break;
             case C_UPDATE_WIRE_BOUNDS:
                 TileEntity tile = player.world.getTileEntity((BlockPos) this.data.get(0));
@@ -836,8 +840,8 @@ public class PacketSimple extends PacketBase implements Packet<INetHandler>
                 }
                 break;
             case C_SPAWN_HANGING_SCHEMATIC:
-                EntityHangingSchematic entity = new EntityHangingSchematic(player.world, (BlockPos) this.data.get(0), EnumFacing.byIndex((Integer) this.data.get(2)), (Integer) this.data.get(3));
-                ((WorldClient) player.world).addEntityToWorld((Integer) this.data.get(1), entity);
+                EntityHangingSchematic hangingSchematic = new EntityHangingSchematic(player.world, (BlockPos) this.data.get(0), EnumFacing.byIndex((Integer) this.data.get(2)), (Integer) this.data.get(3));
+                ((WorldClient) player.world).addEntityToWorld((Integer) this.data.get(1), hangingSchematic);
                 break;
             default:
                 break;
@@ -910,6 +914,18 @@ public class PacketSimple extends PacketBase implements Packet<INetHandler>
                 } else if (player.getRidingEntity() instanceof EntitySpaceshipBase)
                 {
                     player.openGui(GalacticraftCore.instance, GuiIdsCore.ROCKET_INVENTORY, player.world, (int) player.posX, (int) player.posY, (int) player.posZ);
+                }
+                break;
+            case S_SNEAK_OPEN_FUEL_GUI:
+                Entity sneakEntity = player.world.getEntityByID((int) this.data.get(0));
+
+                if (sneakEntity instanceof EntityBuggy)
+                {
+                    GCCoreUtil.openBuggyInv(playerBase, (EntityBuggy) sneakEntity, ((EntityBuggy) sneakEntity).getType());
+                }
+                else if (sneakEntity instanceof EntityTieredRocket)
+                {
+                    GCCoreUtil.openRocketInventory(playerBase, (EntityTieredRocket) sneakEntity);
                 }
                 break;
             case S_UPDATE_SHIP_YAW:
