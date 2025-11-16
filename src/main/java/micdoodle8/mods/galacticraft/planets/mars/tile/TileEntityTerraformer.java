@@ -621,7 +621,12 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid)
     {
-        return (fluid == null || "water".equals(fluid.getName())) && from != this.getElectricInputDirection();
+        if (from == this.getWaterInputDirection())
+        {
+            // Can fill with water
+            return fluid == null || fluid.getName().equals(FluidRegistry.WATER.getName());
+        }
+        return false;
     }
 
     @Override
@@ -710,15 +715,20 @@ public class TileEntityTerraformer extends TileBaseElectricBlockWithInventory im
         {
             return false;
         }
-        if (type == NetworkType.POWER)
+        else if (type == NetworkType.POWER)
         {
             return direction == this.getElectricInputDirection();
         }
-        if (type == NetworkType.FLUID)
+        else if (type == NetworkType.FLUID)
         {
-            return direction != this.getElectricInputDirection();
+            return direction == this.getWaterInputDirection();
         }
         return false;
+    }
+
+    private EnumFacing getWaterInputDirection()
+    {
+        return EnumFacing.DOWN;
     }
 
     @Override
