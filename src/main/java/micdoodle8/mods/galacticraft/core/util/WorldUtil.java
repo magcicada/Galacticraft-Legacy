@@ -77,6 +77,7 @@ import micdoodle8.mods.galacticraft.api.world.SpaceStationType;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GCBlocks;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.core.advancement.GCTriggers;
 import micdoodle8.mods.galacticraft.core.dimension.SpaceStationWorldData;
 import micdoodle8.mods.galacticraft.core.dimension.WorldProviderSpaceStation;
 import micdoodle8.mods.galacticraft.core.entities.EntityCelestialFake;
@@ -715,6 +716,7 @@ public class WorldUtil
         stats.getSpaceStationDimensionData().put(homePlanetID, newID);
         GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_UPDATE_SPACESTATION_CLIENT_ID, GCCoreUtil.getDimensionID(player.world), new Object[]
             {WorldUtil.spaceStationDataToString(stats.getSpaceStationDimensionData())}), player);
+        GCTriggers.CREATE_SPACE_STATION.trigger(player);
         return data;
     }
 
@@ -869,6 +871,8 @@ public class WorldUtil
                         SpaceStationWorldData.getStationData(worldNew, dimID, player).writeToNBT(var2);
                         GalacticraftCore.packetPipeline.sendTo(new PacketSimple(EnumSimplePacket.C_UPDATE_SPACESTATION_DATA, GCCoreUtil.getDimensionID(player.world), new Object[]
                             {dimID, var2}), player);
+                        // Backward compatibility with old GC world that already have their own space station and no achievement
+                        GCTriggers.CREATE_SPACE_STATION.trigger(player);
                     }
                 }
 

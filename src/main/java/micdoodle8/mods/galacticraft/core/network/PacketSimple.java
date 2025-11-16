@@ -70,7 +70,6 @@ import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.Constants;
 import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
-import micdoodle8.mods.galacticraft.core.advancement.GCTriggers;
 import micdoodle8.mods.galacticraft.core.blocks.BlockPanelLighting;
 import micdoodle8.mods.galacticraft.core.blocks.BlockSpaceGlass;
 import micdoodle8.mods.galacticraft.core.client.FootprintRenderer;
@@ -965,7 +964,6 @@ public class PacketSimple extends PacketBase implements Packet<INetHandler>
                 {
                     if (playerBase.capabilities.isCreativeMode || WorldUtil.getSpaceStationRecipe(homeID).matches(playerBase, true))
                     {
-                        GCTriggers.CREATE_SPACE_STATION.trigger(playerBase);
                         WorldUtil.bindSpaceStationToNewDimension(playerBase.world, playerBase, homeID);
                     }
                 }
