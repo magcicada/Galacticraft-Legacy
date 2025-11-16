@@ -302,22 +302,8 @@ public class TickHandlerClient
             if (player.world.provider instanceof IGalacticraftWorldProvider && OxygenUtil.shouldDisplayTankGui(minecraft.currentScreen) && OxygenUtil.noAtmosphericCombustion(player.world.provider)
                 && (!playerBaseClient.isCreative() && !playerBaseClient.isSpectator()) && !minecraft.gameSettings.showDebugInfo)
             {
-                int var6 = (TickHandlerClient.airRemaining - 90) * -1;
-
-                if (TickHandlerClient.airRemaining <= 0)
-                {
-                    var6 = 90;
-                }
-
-                int var7 = (TickHandlerClient.airRemaining2 - 90) * -1;
-
-                if (TickHandlerClient.airRemaining2 <= 0)
-                {
-                    var7 = 90;
-                }
-
                 int thermalLevel = stats.getThermalLevel() + 22;
-                OverlayOxygenTanks.renderOxygenTankIndicator(minecraft, thermalLevel, var6, var7, !ConfigManagerCore.oxygenIndicatorLeft, !ConfigManagerCore.oxygenIndicatorBottom,
+                OverlayOxygenTanks.renderOxygenTankIndicator(minecraft, thermalLevel, TickHandlerClient.airRemaining, TickHandlerClient.airRemaining2, !ConfigManagerCore.oxygenIndicatorLeft, !ConfigManagerCore.oxygenIndicatorBottom,
                     Math.abs(thermalLevel - 22) >= 10 && !stats.isThermalLevelNormalising());
             }
 
