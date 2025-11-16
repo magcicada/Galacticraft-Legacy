@@ -31,6 +31,16 @@ public class EntityEvolvedEnderman extends EntityEnderman implements IEntityBrea
     }
 
     @Override
+    protected boolean teleportRandomly()
+    {
+        if (this.world.isRemote)
+        {
+            return false;
+        }
+        return super.teleportRandomly();
+    }
+
+    @Override
     protected void dropLoot(boolean wasRecentlyHit, int lootingModifier, DamageSource source)
     {
         super.dropLoot(wasRecentlyHit, lootingModifier, source);
