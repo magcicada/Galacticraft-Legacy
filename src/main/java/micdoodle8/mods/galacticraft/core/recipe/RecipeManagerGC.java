@@ -308,7 +308,7 @@ public class RecipeManagerGC
          */
         if (OreDictionary.getOres("ingotTitanium").size() > 0)
         {
-            CompressorRecipes.addShapelessRecipe(new ItemStack(GCItems.basicItem, 1, 6), "ingotTitanium", "ingotTitanium");
+            CompressorRecipes.addShapelessRecipe(new ItemStack(AsteroidsItems.basicItem, 1, 6), "ingotTitanium", "ingotTitanium");
         }
         if (OreDictionary.getOres("ingotBronze").size() > 0)
         {
